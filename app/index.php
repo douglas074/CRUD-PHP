@@ -81,7 +81,7 @@
 
     </section>
 
-    <script src="/Estudo/Cruds/CrudPhp/src/Front/script.js"></script>
+    <script src="/javascript/script.js"></script>
 </body>
 
 </html>
