@@ -11,6 +11,7 @@
     <link rel="icon" href="/Estudo/Cruds/CrudPhp/src/Front/imgs/logoC.png">
 =======
     <link rel="stylesheet" href="/stylesheet/style.css">
+    <link rel="icon" href="">
 >>>>>>> dd87ad8427f301496114eb27d55cd0e81bd7cc2b:app/index.php
 
     <title>Crud de PHP</title>
