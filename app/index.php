@@ -6,19 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<<<<<<< HEAD:src/Front/index.php
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/Estudo/Cruds/CrudPhp/src/Front/imgs/logoC.png">
-=======
-    <link rel="stylesheet" href="/stylesheet/style.css">
-    <link rel="icon" href="">
->>>>>>> dd87ad8427f301496114eb27d55cd0e81bd7cc2b:app/index.php
+    <link rel="icon" href="/app/assets/logoC.png">
 
     <title>Crud de PHP</title>
 </head>
 
 <body>
-
     <header>
         <article class="siteTitle margin-left-header">
             <a href="/Estudo/Cruds/CrudPhp/src/Front/index.php"><h1 class="custom-text-font-forum custom-text-color1">Crud em php</h1></a>
@@ -39,8 +33,6 @@
             </a>
         </article>
     </header>
-
-
 
     <section class="container-fluid">
         <article class="item">
@@ -84,7 +76,7 @@
 
     </section>
 
-    <script src="/Estudo/Cruds/CrudPhp/src/Front/script.js"></script>
+    <script src="/javascript/script.js"></script>
 </body>
 
 </html>
