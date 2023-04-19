@@ -1,7 +1,7 @@
 <?php
 
     spl_autoload_register(function (string $fullName) {
-        $caminhoArquivo =  "/var/www/html/$fullName";
+        $caminhoArquivo =  "/var/www/html/Estudo/Cruds/CrudPhp/$fullName";
         $caminhoArquivo = str_replace('\\', DIRECTORY_SEPARATOR, $caminhoArquivo);
         $caminhoArquivo .= '.php';
         

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="stylesheet/style.css">
     <link rel="icon" href="/app/assets/logoC.png">
 
     <title>Crud de PHP</title>
@@ -20,8 +20,7 @@
 
         <article class="side-opitions">
             <a href="#" class="margin-rigth-header ">
-                <h1
-                    class="custom-button custom-text-color1 custom-text-font-forum header-animation">Login</h1>
+                <h1 class="custom-button custom-text-color1 custom-text-font-forum header-animation">Login</h1>
             </a>
 
             <a href="#" class="margin-rigth-header ">
@@ -76,7 +75,7 @@
 
     </section>
 
-    <script src="/javascript/script.js"></script>
+    <script src="javascript/script.js"></script>
 </body>
 
 </html>

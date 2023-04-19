@@ -1,6 +1,6 @@
 <?php
 
-namespace Estudo\Cruds\CrudPhp\Back;
+namespace config;
 class Users
 {
 
@@ -10,10 +10,14 @@ class Users
 
     public function __construct(string $Name, string $Email, string $Password)
     {
-        $this->Password = $this->PasswordVerificator($Password) == $Password ? $Password : null;
+        $this->Password = $this->PasswordVerificator($Password) == $Password ? $Password : false;
         $this->Name = $Name;
         $this->Email = $Email;
+    }
 
+    public function EmailVerificator(string $email):int
+    {
+       
     }
 
     public function PasswordVerificator(string $pass): int
