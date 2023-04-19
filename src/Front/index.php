@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="/Estudo/Cruds/CrudPhp/src/Front/imgs/logoC.png">
 
     <title>Crud de PHP</title>
 </head>
@@ -15,17 +16,14 @@
 
     <header>
         <article class="siteTitle margin-left-header">
-            <h1 class="custom-text-font-forum custom-text-color1">Crud em php</h1>
+            <a href="/Estudo/Cruds/CrudPhp/src/Front/index.php"><h1 class="custom-text-font-forum custom-text-color1">Crud em php</h1></a>
         </article>
 
         <article class="side-opitions">
             <a href="#" class="margin-rigth-header ">
                 <h1
-                    class="custom-button custom-text-color1 custom-text-font-forum header-animation rigth-button-background">
-                    Login</h1>
+                    class="custom-button custom-text-color1 custom-text-font-forum header-animation">Login</h1>
             </a>
-
-            <span class="custom-text-color1 custom-text-font-forum">|</span>
 
             <a href="#" class="margin-rigth-header ">
                 <h1 class="custom-button custom-text-color1 custom-text-font-forum">Sobre</h1>
@@ -63,13 +61,13 @@
                 <div>
                     <a href="#" type="button"
                         class="custom-button custom-text-font-manrope custom-text-color1 password-button-font-size"
-                        id="passwordButton">Mostrar
+                        id="showHidePassword">Mostrar
                         senha
                     </a>
-                    <a href="#" type="submit"
+                    <button type="submit"
                         class="submit-button custom-text-font-manrope custom-text-color1 password-button-font-size"><b></b>Enviar
 
-                    </a>
+                    </button>
                 </div>
             </form>
             <a href="#" class="alredy-have-acount">Já possui uma conta?</a>

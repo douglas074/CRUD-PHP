@@ -14,7 +14,7 @@
 :root {
     --color1: #E7F0F2;
     --color2: #A9D9D0;
-    --color3: #038C7F;
+    --color3: #038c7f;
     --color4: #027373;
     --color5: #0D0D0D;
 }
@@ -52,7 +52,7 @@ header {
 }
 
 .margin-left-header {
-    margin-left: 5rem;
+    margin-left: 3rem;
 }
 
 .margin-rigth-header {
@@ -77,10 +77,6 @@ header {
 
 .article-forms-general {
     font-size: 18px;
-}
-
-.rigth-button-background {
-    background-color: var(--color2);
 }
 
 .forms-general {
@@ -183,7 +179,7 @@ label {
 }
 
 .input-group-addon {
-    background: #eee;
+    background-color: #eee;
     border: 1px solid #ccc;
     padding: 0.5em 1em;
 }
