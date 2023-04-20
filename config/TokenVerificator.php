@@ -9,14 +9,14 @@ class TokenVerificator{
     public static function TokenVerificator($Token): bool
     {
 
-        $conn = ConnectionCreator::createConnection();
+        $conn = \db\ConnectionCreator::createConnection();
 
         $stmt = $conn->query("SELECT token FROM User");
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $token = $row['token'];
             
-            
+
         }
 
         $conn = null;
