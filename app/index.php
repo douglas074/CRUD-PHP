@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="stylesheet/style.css">
-    <link rel="icon" href="/app/assets/logoC.png">
 
     <title>Crud de PHP</title>
 </head>
@@ -38,7 +37,7 @@
 
         </article>
         <article class="item article-forms-general">
-            <form action="#" class="forms-general">
+            <form class="forms-general" id="accountForm" method="POST">
                 <span class="title-form custom-text-font-forum custom-text-color1">Cadastro</span>
                 <div class="label-float">
                     <input type="text" id="inputName" name="name" placeholder=" " required>
@@ -60,9 +59,8 @@
                         id="showHidePassword">Mostrar
                         senha
                     </a>
-                    <button type="submit"
-                        class="submit-button custom-text-font-manrope custom-text-color1 password-button-font-size"><b></b>Enviar
-
+                    <button type="submit" id="submitForm"
+                        class="submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Enviar
                     </button>
                 </div>
             </form>
@@ -74,7 +72,8 @@
         </article>
 
     </section>
-
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="javascript/script.js"></script>
 </body>
 

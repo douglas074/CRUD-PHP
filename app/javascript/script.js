@@ -11,3 +11,23 @@ passwordButton.addEventListener('click', function () {
         showPassword.textContent = 'Mostrar Senha';
     }
 })
+
+$(document).ready(function () {
+    $('#accountForm').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: '../config/IntermediaryAccount.php',
+            data: formData,
+
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
