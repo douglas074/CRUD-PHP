@@ -1,6 +1,9 @@
 <?php
 
-use 
+require_once "./config/Autoload.php";
+
+$conn = \db\ConnectionCreator::createConnection();
+
 ?>
 <!DOCTYPE html>
 <html lang="PT-br">

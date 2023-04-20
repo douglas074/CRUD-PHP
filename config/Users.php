@@ -60,6 +60,7 @@ class Users
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $bytes = random_bytes(32);
             $token = bin2hex($bytes);
+            $token = strval($token);
 
             $conn = \db\ConnectionCreator::createConnection();
 
