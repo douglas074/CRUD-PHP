@@ -32,15 +32,17 @@ class Users
             $statement->bindValue(':name', $this->Name);
             $statement->bindValue(':email', $this->Email);
             $statement->bindValue(':password', $this->Password);
-            $statement->bindValue(':status', true);
+            $statement->bindValue(':status', false);
             $statement->bindValue(':registration_time', $dateHour);
 
             try {
                 $statement->execute();
             } catch (PDOException $e) {
                 echo $e;
+                $conn = null;
                 return false;
             }
+            $conn = null;
             return true;
         }else{
             return false;
@@ -58,19 +60,31 @@ class Users
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $bytes = random_bytes(32);
             $token = bin2hex($bytes);
+
+            $conn = ConnectionCreator::createConnection();
+
+            $sqlInsert = "INSERT INTO user (token) VALUES (:token);";
             
-            $destinatario = 'exemplo@exemplo.com';
-            $assunto = 'Teste de e-mail';
-            $mensagem = 'Olá, isso é um teste de e-mail!';
+            $statement = $conn->prepare($sqlInsert);
+
+            $statement->bindValue(':token', $token);
+
+            try {
+                $statement->execute();
+            } catch (PDOException $e) {
+                echo $e;
+                $conn = null;
+                return false;
+            }
+            $conn = null;
+
+            $url = 'http://exemplo.com/verificar.php?token=' . $token;
+
+            $assunto = 'Verificação de E-mail';
+            $mensagem = 'Olá, acesse o link abaixo para poder ativar sua conta <br>'. $url;
             
-            // Define os cabeçalhos do e-mail
-            $headers = 'From: remetente@exemplo.com' . "\r\n" .
-                'Reply-To: remetente@exemplo.com' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
-            
-            // Envia o e-mail usando a função mail()
-            mail($destinatario, $assunto, $mensagem, $headers);
-          } 
+            mail($email, $assunto, $mensagem);
+          }
         
         return false;
       
