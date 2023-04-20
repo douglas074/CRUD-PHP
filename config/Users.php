@@ -4,6 +4,7 @@ namespace config;
 
 use PDO;
 use PDOException;
+
 class Users
 {
 
@@ -22,7 +23,7 @@ class Users
     {
         if ($this->Password != null && $this->Email != null && $this->Name != null) {
             $dateHour = date('Y/m/d H:i:s');
-            $conn = ConnectionCreator::createConnection();
+            $conn = \db\ConnectionCreator::createConnection();
 
             $sqlInsert = "INSERT INTO user (name, email, password, status, registration_time) VALUES (:name, :email, :password, :status, :registration_time);";
             
@@ -60,7 +61,7 @@ class Users
             $bytes = random_bytes(32);
             $token = bin2hex($bytes);
 
-            $conn = cConnectionCreator::createConnection();
+            $conn = \db\ConnectionCreator::createConnection();
 
             $sqlInsert = "INSERT INTO user (token) VALUES (:token);";
             
@@ -83,13 +84,11 @@ class Users
             $mensagem = 'Olá, acesse o link abaixo para poder ativar sua conta <br>'. $url;
             
             mail($email, $assunto, $mensagem);
-
-         
+    
             return $email;
-          }
+        }
         
         return false;
-      
     }
 
     public function PasswordVerificator(string $pass): ?int
