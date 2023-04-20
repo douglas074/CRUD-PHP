@@ -11,7 +11,7 @@ class TokenVerificator{
 
         $conn = \db\ConnectionCreator::createConnection();
 
-        $stmt = $conn->query("SELECT token FROM User");
+        $stmt = $conn->query("SELECT token FROM users");
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $token = $row['token'];

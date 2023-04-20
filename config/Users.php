@@ -25,7 +25,7 @@ class Users
             $dateHour = date('Y/m/d H:i:s');
             $conn = \db\ConnectionCreator::createConnection();
 
-            $sqlInsert = "INSERT INTO user (name, email, password, status, registration_time) VALUES (:name, :email, :password, :status, :registration_time);";
+            $sqlInsert = "INSERT INTO users (name, email, password, status, date) VALUES (:name, :email, :password, :status, :registration_time);";
             
             $statement = $conn->prepare($sqlInsert);
 
@@ -63,7 +63,7 @@ class Users
 
             $conn = \db\ConnectionCreator::createConnection();
 
-            $sqlInsert = "INSERT INTO user (token) VALUES (:token);";
+            $sqlInsert = "INSERT INTO users (token) VALUES (:token);";
             
             $statement = $conn->prepare($sqlInsert);
 
