@@ -14,6 +14,8 @@
         <li><code>javascript</code>: contém o arquivo <code>script.js</code>, que é responsável por adicionar comportamentos interativos às páginas HTML.</li>
         <li><code>php</code>: contém os arquivos PHP que implementam as funcionalidades do CRUD.</li>
     </ul>
+    <h2>Instalar Sqlite3</h2>
+    <li><code>brew install php-sqlite3</code></li>
     <h2>Páginas HTML</h2>
     <h3>index.html</h3>
     <p>Este é o arquivo principal do projeto, que contém a página inicial do CRUD. Ele é responsável por carregar os recursos CSS e JavaScript, bem como por exibir o formulário de cadastro.</p>
