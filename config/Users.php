@@ -2,12 +2,18 @@
 
 namespace config;
 
+require"../vendor/autoload.php";
+
+use FFI\Exception;
 use PDO;
 use PDOException;
-
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\Smtp as SmtpTransport;
+use Laminas\Mail\Transport\SmtpOptions;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Part as MimePart;
 class Users
 {
-
     private string $Name;
     private string $Email;
     private string $Password = '';
@@ -23,17 +29,24 @@ class Users
     {
         if ($this->Password != null && $this->Email != null && $this->Name != null) {
             $dateHour = date('Y/m/d H:i:s');
+
+            $bytes = random_bytes(32);
+            $token = bin2hex($bytes);
+
             $conn = \db\ConnectionCreator::createConnection();
 
-            $sqlInsert = "INSERT INTO users (name, email, password, status, date) VALUES (:name, :email, :password, :status, :registration_time);";
+            $sqlInsert = "INSERT INTO users (name, email, password, date, token, status) VALUES (:name, :email, :password, :date, :token, :status);";
             
             $statement = $conn->prepare($sqlInsert);
+
+            var_dump($this->Email);
 
             $statement->bindValue(':name', $this->Name);
             $statement->bindValue(':email', $this->Email);
             $statement->bindValue(':password', $this->Password);
+            $statement->bindValue(':date', $dateHour);
+            $statement->bindValue(':token', $token);
             $statement->bindValue(':status', 0);
-            $statement->bindValue(':registration_time', $dateHour);
 
             try {
                 $statement->execute();
@@ -43,6 +56,45 @@ class Users
                 return false;
             }
             $conn = null;
+            
+
+            $url = 'http://exemplo.com/verificar.php?token=' . $token;
+        
+
+            try {
+                $transport = new SmtpTransport();
+                $options = new SmtpOptions([
+                    'name' => 'smtp.gmail.com',
+                    'host' => 'smtp.gmail.com',
+                    'port' => 587,
+                    'connection_class' => 'login',
+                    'connection_config' => [
+                        'username' => 'do157.nunes@gmail.com',
+                        'password' => 'erefbuqzqilcuhgs',
+                        'ssl' => 'tls',
+                    ],
+                ]);
+                $transport->setOptions($options);
+            
+                $message = new Message();
+                $message->setEncoding('UTF-8');
+
+                $html = new MimePart('<h4>Olá ' . $this->Name . '<br> Por favor, acesse o link abaixo para confirmar seu e-mail </h4><br><h5>' . $url . '</h5>');
+                $html->type = 'text/html';
+            
+                $body = new MimeMessage();
+                $body->addPart($html);
+                $message->addTo($this->Email)
+                        ->addFrom('do157.nunes@gmail.com')
+                        ->setSubject('Verificação de conta')
+                        ->setBody($body);
+
+                $transport->send($message);
+            
+                echo 'Email enviado com sucesso!';
+            } catch (Exception $e) {
+                echo 'Erro ao enviar email: ' . $e->getMessage();
+            }
             return true;
         }else{
             return false;
@@ -57,35 +109,8 @@ class Users
         //link roda um código se ve se o token bate com o do banco de dados
         //ativa a conta
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $bytes = random_bytes(32);
-            $token = bin2hex($bytes);
-            $token = strval($token);
-
-            $conn = \db\ConnectionCreator::createConnection();
-
-            $sqlInsert = "INSERT INTO users (token) VALUES (:token);";
-            
-            $statement = $conn->prepare($sqlInsert);
-
-            $statement->bindValue(':token', $token);
-
-            try {
-                $statement->execute();
-            } catch (PDOException $e) {
-                echo $e;
-                $conn = null;
-                return false;
-            }
-            $conn = null;
-
-            $url = 'http://exemplo.com/verificar.php?token=' . $token;
-
-            $assunto = 'Verificação de E-mail';
-            $mensagem = 'Olá, acesse o link abaixo para poder ativar sua conta <br>'. $url;
-            
-            mail($email, $assunto, $mensagem);
-    
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) 
+        {
             return $email;
         }
         

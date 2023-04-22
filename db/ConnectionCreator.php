@@ -10,7 +10,7 @@ class ConnectionCreator
     public static function createConnection()
     {
         try {
-            $pdo = new PDO('sqlite:./database.db');
+            $pdo = new PDO('sqlite:/var/www/html/Estudo/Cruds/CrudPhp/db/database.db');
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             return $pdo;
