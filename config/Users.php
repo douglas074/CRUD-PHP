@@ -58,7 +58,7 @@ class Users
             $conn = null;
             
 
-            $url = 'http://exemplo.com/verificar.php?token=' . $token;
+            $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
         
 
             try {

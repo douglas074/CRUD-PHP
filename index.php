@@ -13,7 +13,7 @@ $conn = \db\ConnectionCreator::createConnection();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="stylesheet/style.css">
+    <link rel="stylesheet" href="./app/stylesheet/styleIndex.css">
 
     <title>Crud de PHP</title>
 </head>
@@ -57,7 +57,7 @@ $conn = \db\ConnectionCreator::createConnection();
                 </div>
 
                 <div class="label-float">
-                    <input type="password" id="inputPass" name="senha" placeholder=" ">
+                    <input type="password" id="inputPass" name="password" placeholder=" ">
                     <label for="#inputPassword" class="custom-text-font-forum custom-text-color5">Senha:</label>
                 </div>
                 <div>
@@ -69,6 +69,8 @@ $conn = \db\ConnectionCreator::createConnection();
                     <button type="submit" id="submitForm"
                         class="submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Enviar
                     </button>
+                    <div id="response" class="custom-text-font-manrope custom-text-color1 password-button-font-size"></div>
+
                 </div>
             </form>
             <a href="#" class="alredy-have-acount">Já possui uma conta?</a>
@@ -81,7 +83,7 @@ $conn = \db\ConnectionCreator::createConnection();
     </section>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="javascript/script.js"></script>
+    <script src="./app/javascript/scriptIndex.js"></script>
 </body>
 
 </html>

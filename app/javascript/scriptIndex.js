@@ -19,8 +19,12 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '../config/IntermediaryAccount.php',
+            url: '/Estudo/Cruds/CrudPhp/config/IntermediaryCreateAccount.php',
             data: formData,
+            dataType: 'json',
+            beforeSend: function () {
+                $('#response').html('Enviando...');
+            },
 
             success: function (response) {
                 console.log(response);

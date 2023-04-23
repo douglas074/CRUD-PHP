@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
+
+
+/*
+/* Color Theme Swatches in Hex 
+{ color: #027373; }
+{ color: #038C7F; }
+{ color: #A9D9D0; }
+{ color: #F2E7DC; }
+{ color: #0D0D0D; }
+*/
+
+:root {
+    --color1: #E7F0F2;
+    --color2: #A9D9D0;
+    --color3: #038c7f;
+    --color4: #027373;
+    --color5: #0D0D0D;
+}
+
+.spinner {
+    border: 5px solid #DCDCDC;
+    border-left-color: #00CC99;
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+}
+
+.spinner.is-animating {
+    animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+body {
+    margin: 0%;
+    background-color: var(--color1);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color3);
+}
+
+.sideTitle {
+    display: flex;
+}
+
+.side-opitions {
+    display: flex;
+}
+
+.custom-button {
+    border: none;
+    background-color: transparent;
+    float: right;
+}
+
+.submit-button {
+    border: none;
+    background-color: transparent;
+    float: left;
+}
+
+.margin-left-header {
+    margin-left: 3rem;
+}
+
+.margin-rigth-header {
+    margin-right: 1rem;
+}
+
+.custom-text-color5 {
+    color: var(--color5);
+}
+
+.custom-text-color4 {
+    color: var(--color4);
+}
+
+.custom-text-color3 {
+    color: var(--color3);
+}
+
+.custom-text-color1 {
+    color: var(--color1);
+}
+
+.article-forms-general {
+    font-size: 18px;
+}
+
+.forms-general {
+    margin-top: 10vh;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--color3);
+}
+
+.custom-text-font-forum {
+    font-family: 'Forum', cursive;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.title-form {
+    font-size: 25px;
+}
+
+.custom-text-font-manrope {
+    font-family: 'Manrope', sans-serif;
+}
+
+.password-button-font-size {
+    font-size: 20px;
+}
+
+.container-fluid {
+    display: flex;
+}
+
+.item {
+    flex-grow: 1;
+    display: grid;
+    place-content: center;
+}

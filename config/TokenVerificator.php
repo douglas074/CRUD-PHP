@@ -16,11 +16,11 @@ class TokenVerificator{
             $dbToken = $row['token'];
 
             if ($dbToken == $Token) {
+
                 return true;
             }
             
         }
-
         $conn = null;
         return false;
     }
