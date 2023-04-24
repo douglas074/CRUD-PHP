@@ -1,26 +1,24 @@
-//token verificator
-var currentUrl = window.location.href;
-var params = new URLSearchParams(currentUrl);
-var token = params.get("token");
-
-// faz uma requisição AJAX para verificar o token
+const params = new URLSearchParams(window.location.search);
+const token = params.get('token');
 
 window.onload = function () {
 
-    console.log(token);
-
     $.ajax({
-        url: "/Estudo/Cruds/CrudPhp/config/TokenVerificator.php",
-        type: "POST",
+        url: "/Estudo/Cruds/CrudPhp/config/IntermediaryTokenVerificator.php",
+        type: "GET",
         data: {
             token: token
         },
         success: function (response) {
-            // lida com a resposta do servidor
-            console.log(response);
+            $('.spinner').css('display', 'none');
+            $('#status').text(response);
+            setTimeout(function () {
+                window.location.href = "/Estudo/Cruds/CrudPhp/app/CreatAccount.php";
+            }, 5000);
         },
         error: function (textStatus, errorThrown) {
-            // lida com o erro da requisição AJAX
+            $('.spinner').css('display', 'none');
+            $('#status').text(response);
             console.log(textStatus, errorThrown);
         }
     });

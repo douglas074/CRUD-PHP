@@ -27,6 +27,8 @@ $(document).ready(function () {
             },
 
             success: function (response) {
+                $('#accountForm')[0].reset();
+                $('#response').html('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
                 console.log(response);
             },
             error: function (xhr, status, error) {

@@ -24,7 +24,7 @@
         </article>
         <article class="item article-forms-general">
             <div class="spinner is-animating"></div>
-            <p>Processando</p>
+            <p id="status">Processando</p>
         </article>
 
         <article class="item">

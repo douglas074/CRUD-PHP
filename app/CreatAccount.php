@@ -1,10 +1,3 @@
-<?php
-
-require_once "./config/Autoload.php";
-
-$conn = \db\ConnectionCreator::createConnection();
-
-?>
 <!DOCTYPE html>
 <html lang="PT-br">
 
@@ -13,7 +6,7 @@ $conn = \db\ConnectionCreator::createConnection();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./app/stylesheet/styleIndex.css">
+    <link rel="stylesheet" href="/Estudo/Cruds/CrudPhp/app/stylesheet/styleCreatAccount.css">
 
     <title>Crud de PHP</title>
 </head>
@@ -73,7 +66,7 @@ $conn = \db\ConnectionCreator::createConnection();
 
                 </div>
             </form>
-            <a href="#" class="alredy-have-acount">Já possui uma conta?</a>
+            <a href="/Estudo/Cruds/CrudPhp/Index.php" class="alredy-have-acount">Já possui uma conta?</a>
         </article>
 
         <article class="item">
@@ -83,7 +76,7 @@ $conn = \db\ConnectionCreator::createConnection();
     </section>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="./app/javascript/scriptIndex.js"></script>
+    <script src="/Estudo/Cruds/CrudPhp/app/javascript/scriptCreatAccount.js"></script>
 </body>
 
 </html>

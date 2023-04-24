@@ -1,12 +1,19 @@
-<?php
-
+<?php 
 namespace config;
 
 use PDO;
 use PDOException;
 
+/**
+ * Summary of TokenVerificator
+ */
 class TokenVerificator{
-    public static function TokenVerificator($Token): bool
+    /**
+     * Summary of TokenVerificator
+     * @param mixed $Token
+     * @return bool
+     */
+    public static function TokenVerificator($Token): string
     {
         $conn = \db\ConnectionCreator::createConnection();
 
@@ -16,12 +23,27 @@ class TokenVerificator{
             $dbToken = $row['token'];
 
             if ($dbToken == $Token) {
+                $newValue = 1;
+                
+                $sql = "UPDATE users SET status = :newValue WHERE token = :token";
 
-                return true;
+                try {
+                    $stmtUpdate = $conn->prepare($sql);
+
+                    $stmtUpdate->bindParam(':newValue', $newValue);
+                    $stmtUpdate->bindParam(':token', $Token);
+                    $stmtUpdate->execute();
+                    $conn = null;
+                    return "Conta ativada, você será redirecionado para que possa fazer o login";
+
+                } catch (PDOException $e) {
+                    return "Erro ao ativar conta: " . $e->getMessage();
+                }
             }
             
         }
         $conn = null;
-        return false;
+        return "Token inválido";
     }
+
 }
