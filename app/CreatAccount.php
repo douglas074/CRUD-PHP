@@ -62,9 +62,9 @@
                     <button type="submit" id="submitForm"
                         class="submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Enviar
                     </button>
-                    <div id="response" class="custom-text-font-manrope custom-text-color1 password-button-font-size"></div>
-
                 </div>
+                <p id="response" class="custom-text-font-manrope custom-text-color1 password-button-font-size"></p>
+
             </form>
             <a href="/Estudo/Cruds/CrudPhp/Index.php" class="alredy-have-acount">Já possui uma conta?</a>
         </article>

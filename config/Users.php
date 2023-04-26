@@ -22,12 +22,13 @@ class Users
     {
         $this->Name = $Name;
         $this->PasswordVerificator($Password);
-        $this->Email = $this->EmailVerificator($Email);
+        $this->EmailVerificator($Email);
     }
 
     public function SaveData()
     {
-        if ($this->Password != null && $this->Email != null && $this->Name != null) {
+        if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?])[\w!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?]{6,}$/', $this->Password) == 1 && $this->Email != null && $this->Name != null) {
+
             $dateHour = date('Y/m/d H:i:s');
 
             $bytes = random_bytes(32);
@@ -39,8 +40,6 @@ class Users
             
             $statement = $conn->prepare($sqlInsert);
 
-            var_dump($this->Email);
-
             $statement->bindValue(':name', $this->Name);
             $statement->bindValue(':email', $this->Email);
             $statement->bindValue(':password', $this->Password);
@@ -50,80 +49,82 @@ class Users
 
             try {
                 $statement->execute();
+
+            echo 'Conta criada com sucesso!';
             } catch (PDOException $e) {
-                echo $e;
+                echo 'Erro ao criar conta' . $e;
                 $conn = null;
                 return false;
             }
             $conn = null;
-            
 
             $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
         
-
-            try {
-                $transport = new SmtpTransport();
-                $options = new SmtpOptions([
-                    'name' => 'smtp.gmail.com',
-                    'host' => 'smtp.gmail.com',
-                    'port' => 587,
-                    'connection_class' => 'login',
-                    'connection_config' => [
-                        'username' => 'do157.nunes@gmail.com',
-                        'password' => 'erefbuqzqilcuhgs',
-                        'ssl' => 'tls',
-                    ],
-                ]);
-                $transport->setOptions($options);
-            
-                $message = new Message();
-                $message->setEncoding('UTF-8');
-
-                $html = new MimePart('<h4>Olá ' . $this->Name . '<br> Por favor, acesse o link abaixo para confirmar seu e-mail </h4><br><h5>' . $url . '</h5>');
-                $html->type = 'text/html';
-            
-                $body = new MimeMessage();
-                $body->addPart($html);
-                $message->addTo($this->Email)
-                        ->addFrom('do157.nunes@gmail.com')
-                        ->setSubject('Verificação de conta')
-                        ->setBody($body);
-
-                $transport->send($message);
-            
-                echo 'Email enviado com sucesso!';
-            } catch (Exception $e) {
-                echo 'Erro ao enviar email: ' . $e->getMessage();
-            }
-            return true;
+            $this->EmailSend($url);
         }else{
             return false;
         }
     }
 
-    public function EmailVerificator(string $email)
+    public function EmailSend(string $url):void
     {
-        //verificar estrutura do email
-        //criar token -> salvar no banco -> associar a um link
-        //envia email de verificação com o link
-        //link roda um código se ve se o token bate com o do banco de dados
-        //ativa a conta
-
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) 
-        {
-            return $email;
-        }
+        try {
+            $transport = new SmtpTransport();
+            $options = new SmtpOptions([
+                'name' => 'smtp.gmail.com',
+                'host' => 'smtp.gmail.com',
+                'port' => 587,
+                'connection_class' => 'login',
+                'connection_config' => [
+                    'username' => 'do157.nunes@gmail.com',
+                    'password' => 'erefbuqzqilcuhgs',
+                    'ssl' => 'tls',
+                ],
+            ]);
+            $transport->setOptions($options);
         
-        return false;
+            $message = new Message();
+            $message->setEncoding('UTF-8');
+
+            $html = new MimePart('<h4>Olá ' . $this->Name . '<br> Por favor, acesse o link abaixo para confirmar seu e-mail </h4><br><h5>' . $url . '</h5>');
+            $html->type = 'text/html';
+        
+            $body = new MimeMessage();
+            $body->addPart($html);
+            $message->addTo($this->Email)
+                    ->addFrom('do157.nunes@gmail.com')
+                    ->setSubject('Verificação de conta')
+                    ->setBody($body);
+
+            $transport->send($message);
+        
+            echo 'Email enviado com sucesso!';
+            return;
+        } catch (Exception $e) {
+            echo 'Erro ao enviar email: ' . $e->getMessage();
+            return;
+        }
     }
 
-    public function PasswordVerificator(string $pass): ?int
+    public function EmailVerificator(string $email):void
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) 
+        {
+            $this->Email = $email;
+            return;
+        }
+        echo "E-mail inválido, por favor tente novamente";
+        return;
+    }
+
+    public function PasswordVerificator(string $pass): void
     {
         if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?])[\w!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?]{6,}$/', $pass) == 1) {
-            $this->Password = $pass;
-            return null;
+            $this->Password = password_hash($pass, PASSWORD_DEFAULT);
+            return;
         } else {
-            return 1;
+            echo "Senha inválida, por favor tente novamente";
+            return;
         }
     }
 }

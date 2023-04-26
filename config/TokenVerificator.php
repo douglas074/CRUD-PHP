@@ -13,7 +13,7 @@ class TokenVerificator{
      * @param mixed $Token
      * @return bool
      */
-    public static function TokenVerificator($Token): string
+    public static function TokenVerificator($Token): bool
     {
         $conn = \db\ConnectionCreator::createConnection();
 
@@ -34,16 +34,18 @@ class TokenVerificator{
                     $stmtUpdate->bindParam(':token', $Token);
                     $stmtUpdate->execute();
                     $conn = null;
-                    return "Conta ativada, você será redirecionado para que possa fazer o login";
+                    echo "Conta ativada, você será redirecionado para que possa fazer o login";
+                    return true;
 
                 } catch (PDOException $e) {
-                    return "Erro ao ativar conta: " . $e->getMessage();
+                    echo "Erro ao ativar conta: " . $e->getMessage();
+                    return false;
                 }
             }
-            
         }
         $conn = null;
-        return "Token inválido";
+        echo "Token inválido";
+        return false;
     }
 
 }

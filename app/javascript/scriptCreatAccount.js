@@ -19,13 +19,11 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '/Estudo/Cruds/CrudPhp/config/IntermediaryCreateAccount.php',
+            url: '/Estudo/Cruds/CrudPhp/config/intermediaries/IntermediaryCreateAccount.php',
             data: formData,
-            dataType: 'json',
             beforeSend: function () {
                 $('#response').html('Enviando...');
             },
-
             success: function (response) {
                 $('#accountForm')[0].reset();
                 $('#response').html('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
