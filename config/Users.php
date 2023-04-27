@@ -21,49 +21,45 @@ class Users
     public function __construct(string $Name, string $Email, string $Password)
     {
         $this->Name = $Name;
-        $this->PasswordVerificator($Password);
-        $this->EmailVerificator($Email);
+        $this->Password = password_hash($Password, PASSWORD_DEFAULT);
+        $this->Email =  (filter_var($Email, FILTER_VALIDATE_EMAIL)) ? $Email : exit();
+        
     }
 
     public function SaveData()
     {
-        if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?])[\w!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?]{6,}$/', $this->Password) == 1 && $this->Email != null && $this->Name != null) {
+        $dateHour = date('Y/m/d H:i:s');
 
-            $dateHour = date('Y/m/d H:i:s');
+        $bytes = random_bytes(32);
+        $token = bin2hex($bytes);
 
-            $bytes = random_bytes(32);
-            $token = bin2hex($bytes);
+        $conn = \db\ConnectionCreator::createConnection();
 
-            $conn = \db\ConnectionCreator::createConnection();
-
-            $sqlInsert = "INSERT INTO users (name, email, password, date, token, status) VALUES (:name, :email, :password, :date, :token, :status);";
-            
-            $statement = $conn->prepare($sqlInsert);
-
-            $statement->bindValue(':name', $this->Name);
-            $statement->bindValue(':email', $this->Email);
-            $statement->bindValue(':password', $this->Password);
-            $statement->bindValue(':date', $dateHour);
-            $statement->bindValue(':token', $token);
-            $statement->bindValue(':status', 0);
-
-            try {
-                $statement->execute();
-
-            echo 'Conta criada com sucesso!';
-            } catch (PDOException $e) {
-                echo 'Erro ao criar conta' . $e;
-                $conn = null;
-                return false;
-            }
-            $conn = null;
-
-            $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
+        $sqlInsert = "INSERT INTO users (name, email, password, dateHour, token, status) VALUES (:name, :email, :password, :date, :token, :status);";
         
-            $this->EmailSend($url);
-        }else{
+        $statement = $conn->prepare($sqlInsert);
+
+        $statement->bindValue(':name', $this->Name);
+        $statement->bindValue(':email', $this->Email);
+        $statement->bindValue(':password', $this->Password);
+        $statement->bindValue(':date', $dateHour);
+        $statement->bindValue(':token', $token);
+        $statement->bindValue(':status', 0);
+
+        try {
+            $statement->execute();
+
+        echo 'Conta criada com sucesso!';
+        } catch (PDOException $e) {
+            echo 'Erro ao criar conta' . $e;
+            $conn = null;
             return false;
         }
+        $conn = null;
+
+        $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
+    
+        $this->EmailSend($url);
     }
 
     public function EmailSend(string $url):void
