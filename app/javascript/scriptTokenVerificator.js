@@ -4,7 +4,7 @@ const token = params.get('token');
 window.onload = function () {
 
     $.ajax({
-        url: "/Estudo/Cruds/CrudPhp/config/intermediaries/IntermediaryTokenVerificator.php",
+        url: "/Estudo/Cruds/CrudPhp/config/IntermediaryTokenVerificator.php",
         type: "GET",
         data: {
             token: token
