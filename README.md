@@ -1,6 +1,6 @@
 <html lang="pt-br">
 <body>
-    <h1>CRUD em PHDDDP</h1>
+    <h1>CRUD em PHP</h1>
     <p>Este é um projeto de exemplo para um CRUD (Create, Read, Update, Delete) em PHP. O objetivo é demonstrar como é possível criar um formulário de cadastro simples utilizando HTML, CSS e PHP.</p>
     <h2>Estrutura de pastas</h2>
     <p>O projeto é dividido em três pastas principais:</p>
