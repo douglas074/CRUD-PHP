@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Forum&family=Quicksand:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
+
+
+/*
+/* Color Theme Swatches in Hex 
+{ color: #027373; }
+{ color: #038C7F; }
+{ color: #A9D9D0; }
+{ color: #F2E7DC; }
+{ color: #0D0D0D; }
+*/
+
+:root {
+    --color1: #E7F0F2;
+    --color2: #A9D9D0;
+    --color3: #038c7f;
+    --color4: #027373;
+    --color5: #0D0D0D;
+}
+
+.background-left-side {
+    background-color: #027373;
+}
+
+.perfil {
+    background-color: transparent;
+    border: 2px solid #333;
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    transform: translate(-50%, -50%);
+}
+
+.perfil img {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+}
+
+body {
+    margin: 0%;
+    background-color: var(--color5);
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color3);
+}
+
+.sideTitle {
+    display: flex;
+}
+
+.side-opitions {
+    display: flex;
+}
+
+.custom-button {
+    border: none;
+    background-color: transparent;
+    float: right;
+}
+
+.submit-button {
+    border: none;
+    background-color: transparent;
+    float: left;
+}
+
+.margin-left-header {
+    margin-left: 3rem;
+}
+
+.margin-rigth-header {
+    margin-right: 1rem;
+}
+
+.custom-text-color5 {
+    color: var(--color5);
+}
+
+.custom-text-color4 {
+    color: var(--color4);
+}
+
+.custom-text-color3 {
+    color: var(--color3);
+}
+
+.custom-text-color1 {
+    color: var(--color1);
+}
+
+.article-forms-general {
+    font-size: 18px;
+}
+
+.forms-general {
+    margin-top: 10vh;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--color3);
+}
+
+.custom-text-font-forum {
+    font-family: 'Forum', cursive;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.title-form {
+    font-size: 25px;
+}
+
+.custom-text-font-manrope {
+    font-family: 'Manrope', sans-serif;
+}
+
+.password-button-font-size {
+    font-size: 20px;
+}
+
+.container-fluid {
+    display: flex;
+}
+
+.item {
+    position: relative;
+    flex-grow: 1;
+    display: grid;
+    place-content: center;
+}
+
+label {
+    display: block;
+}
+
+
+
+.label-float {
+    position: relative;
+    padding-top: 15px;
+}
+
+.label-float input {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    outline: none;
+    min-width: 250px;
+    padding: 15px 20px;
+    transition: all .1s linear;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+}
+
+
+.label-float input::placeholder {
+    color: transparent;
+}
+
+.label-float label {
+    pointer-events: none;
+    position: absolute;
+    top: calc(50% - 8px);
+    left: 15px;
+    transition: all .1s linear;
+    -webkit-transition: all .1s linear;
+    -moz-transition: all .1s linear;
+    background-color: white;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.label-float input::invalid+label {
+    color: red;
+}
+
+.label-float input:focus::invalid {
+    border: 2px solid red;
+}
+
+.label-float input:focus+label,
+.label-float input:not(:placeholder-shown)+label {
+    font-size: 13px;
+    top: 0;
+    color: black;
+    border-radius: 6px;
+}
+
+.input-group {
+    display: flex;
+    align-content: stretch;
+}
+
+.input-group>input {
+    flex: 1 0 auto;
+}
+
+.input-group-addon {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    padding: 0.5em 1em;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color4);
+}

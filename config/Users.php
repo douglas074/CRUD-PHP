@@ -16,7 +16,7 @@ class Users
 {
     private string $Name;
     private string $Email;
-    private string $Password = '';
+    private string $Password;
 
     public function __construct(string $Name, string $Email, string $Password)
     {
@@ -25,7 +25,6 @@ class Users
         $this->Email =  (filter_var($Email, FILTER_VALIDATE_EMAIL)) ? $Email : exit();
         
     }
-
     public function SaveData()
     {
         $dateHour = date('Y/m/d H:i:s');
@@ -61,7 +60,26 @@ class Users
     
         $this->EmailSend($url);
     }
+    public static function AccessAccount(string $email, string $password): int
+    {
+        $conn = \db\ConnectionCreator::createConnection();
 
+        $stmt = $conn->query("SELECT id, email, password FROM users WHERE status = 1");
+        $stmt->execute();
+
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $dbEmail = $row['email'];
+            $dbPassword = $row['password'];
+            $dbId = $row['id'];
+
+            if ( $dbEmail == $email && password_verify($password, $dbPassword)) {
+                $conn = null;
+                return $dbId;
+            }
+        }
+        $conn = null;
+        return 0;
+    }
     public function EmailSend(string $url):void
     {
         try {
