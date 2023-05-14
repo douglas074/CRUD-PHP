@@ -30,7 +30,9 @@ $(document).ready(function () {
                         console.log(response)
                         break;
                     default:
-                        window.location.href = "/Estudo/Cruds/CrudPhp/app/Home.php?id=" + response;
+                        console.log(response)
+
+                        window.location.href = "/Estudo/Cruds/CrudPhp/app/Home.php";
                         break;
                 }
             },

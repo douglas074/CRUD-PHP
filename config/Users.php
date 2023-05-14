@@ -55,7 +55,6 @@ class Users
             return false;
         }
         $conn = null;
-
         $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
     
         $this->EmailSend($url);
@@ -64,21 +63,44 @@ class Users
     {
         $conn = \db\ConnectionCreator::createConnection();
 
-        $stmt = $conn->query("SELECT id, email, password FROM users WHERE status = 1");
+        $stmt = $conn->query("SELECT * FROM users WHERE status = 1");
         $stmt->execute();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $dbEmail = $row['email'];
             $dbPassword = $row['password'];
-            $dbId = $row['id'];
 
             if ( $dbEmail == $email && password_verify($password, $dbPassword)) {
                 $conn = null;
-                return $dbId;
+                $_SESSION['id'] = $row['id'];                
+                $_SESSION['name'] = $row['name'];
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['password'] = $row['password'];
+
+                return $_SESSION['id'];
             }
         }
+        session_destroy();
         $conn = null;
         return 0;
+    }
+    
+    public static function GetValues(string $guid, string $pass): string
+    {
+        $conn = \db\ConnectionCreator::createConnection();
+        $stmt = $conn->query("SELECT id, name, email, password FROM users WHERE guid = $guid");
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $dbId = $row['id'];
+        $dbPassword = $row['password'];
+
+        $conn = null;
+
+        if ( $dbId == $guid && password_verify($pass, $dbPassword)) {
+            return json_encode($row);
+        }
+        return "false";
     }
     public function EmailSend(string $url):void
     {

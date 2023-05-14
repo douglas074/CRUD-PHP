@@ -19,52 +19,27 @@
     --color5: #0D0D0D;
 }
 
-.background-left-side {
-    background-color: #027373;
-}
-
-.perfil {
-    background-color: transparent;
-    border: 2px solid #333;
-    border-radius: 50%;
-    height: 80px;
-    width: 80px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    transform: translate(-50%, -50%);
-}
-
-.perfil img {
-    border-radius: 50%;
-    height: 50px;
-    width: 50px;
-}
-
 body {
     margin: 0%;
     background-color: var(--color5);
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.header {
     background-color: var(--color3);
-}
-
-.sideTitle {
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    height: 45px;
+    align-items: center;
     display: flex;
+    justify-content: flex-end;
 }
 
-.side-opitions {
-    display: flex;
+.input-background {
+    background-color: var(--color1);
 }
 
-.custom-button {
-    border: none;
-    background-color: transparent;
-    float: right;
+.display-none {
+    display: none;
 }
 
 .submit-button {
@@ -73,12 +48,8 @@ header {
     float: left;
 }
 
-.margin-left-header {
-    margin-left: 3rem;
-}
-
-.margin-rigth-header {
-    margin-right: 1rem;
+.custom-text-font-manrope {
+    font-family: 'Manrope', sans-serif;
 }
 
 .custom-text-color5 {
@@ -97,9 +68,34 @@ header {
     color: var(--color1);
 }
 
-.article-forms-general {
-    font-size: 18px;
+.password-button-font-size {
+    font-size: 20px;
 }
+
+.container-fluid {
+    display: flex;
+}
+
+.item {
+    position: relative;
+    flex-grow: 1;
+    display: grid;
+    place-content: center;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color4);
+}
+
+.show-hide-password {
+    float: right;
+}
+
+.display-svg {
+    display: flex;
+}
+
 
 .forms-general {
     margin-top: 10vh;
@@ -130,7 +126,6 @@ header {
 }
 
 .item {
-    position: relative;
     flex-grow: 1;
     display: grid;
     place-content: center;

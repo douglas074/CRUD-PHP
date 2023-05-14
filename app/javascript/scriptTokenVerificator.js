@@ -1,5 +1,6 @@
 const params = new URLSearchParams(window.location.search);
-const token = params.get('token');
+const array = params.split('/');
+const lastField = array[array.length - 1];
 
 window.onload = function () {
 
@@ -7,7 +8,7 @@ window.onload = function () {
         url: "/Estudo/Cruds/CrudPhp/config/IntermediaryTokenVerificator.php",
         type: "GET",
         data: {
-            token: token
+            token: lastField
         },
         success: function (response) {
             $('.spinner').css('display', 'none');
