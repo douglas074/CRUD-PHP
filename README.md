@@ -1,9 +1,4 @@
-<!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
 <body>
     <h1>CRUD em PHP</h1>
     <p>Este é um projeto de exemplo para um CRUD (Create, Read, Update, Delete) em PHP. O objetivo é demonstrar como é possível criar um formulário de cadastro simples utilizando HTML, CSS e PHP.</p>
