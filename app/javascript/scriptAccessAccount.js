@@ -29,10 +29,11 @@ $(document).ready(function () {
                     case '0':
                         console.log(response)
                         break;
-                    default:
+                    case '1':
                         console.log(response)
-
                         window.location.href = "/Estudo/Cruds/CrudPhp/app/Home.php";
+                    default:
+                        console.log('Erro desconhecido');
                         break;
                 }
             },

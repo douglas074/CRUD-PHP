@@ -46,7 +46,7 @@ session_start();
                         value="<?php echo $_SESSION['email'];?>" disabled>
                     <label for="#inputEmail" class="custom-text-font-forum custom-text-color5">E-mail:</label>
                 </div>
-                <div class="display-none">
+                <div class="display-none password-area">
                     <div class="label-float">
                         <input type="password" class="input-background" id="inputPass" name="password" placeholder=" ">
                         <label for="#inputPassword" class="custom-text-font-forum custom-text-color5">Senha
@@ -69,11 +69,14 @@ session_start();
                 </div>
                 <div>
                     <a href="#" type="button"
-                        class="display-none custom-button custom-text-font-manrope custom-text-color1 password-button-font-size show-hide-password"
-                        id="showHidePassword">Mostrar senha
+                        class="show-hide-password display-none custom-button custom-text-font-manrope custom-text-color1 password-button-font-size show-hide-password">Mostrar
+                        senha
                     </a>
-                    <button type="button" id="submitForm"
-                        class="submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Editar
+                    <button type="button"
+                        class="form-button0 submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Editar
+                    </button>
+                    <button type="submit"
+                        class="form-button1 display-none submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Salvar
                     </button>
                 </div>
                 <p id="response" class="custom-text-font-manrope custom-text-color1 password-button-font-size"></p>
