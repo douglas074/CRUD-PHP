@@ -34,36 +34,37 @@ session_start();
 
         <article class="item article-forms-general">
             <form class="forms-general" id="accountForm" method="POST">
+                <input type="hidden" name="hiddenInput" class="hidden-input" value="0" disabled>
                 <span class="title-form custom-text-font-forum custom-text-color1">Alterar dados</span>
                 <div class="label-float">
-                    <input type="text" class="input-background" id="inputName" name="name" placeholder=" "
-                        value="<?php echo $_SESSION['name'];?>" disabled>
+                    <input type="text" class="input-background input-disabled0" id="inputName" name="name"
+                        placeholder=" " value="<?php echo $_SESSION['name'];?>" disabled>
                     <label for="#inputName" class="custom-text-font-forum custom-text-color5">Nome:</label>
                 </div>
 
                 <div class="label-float">
-                    <input type="email" class="input-background" id="inputtEmail" name="email" placeholder=" "
-                        value="<?php echo $_SESSION['email'];?>" disabled>
+                    <input type="email" class="input-background input-disabled1" id="inputEmail" name="email"
+                        placeholder=" " value="<?php echo $_SESSION['email'];?>" disabled>
                     <label for="#inputEmail" class="custom-text-font-forum custom-text-color5">E-mail:</label>
                 </div>
                 <div class="display-none password-area">
                     <div class="label-float">
                         <input type="password" class="input-background" id="inputPass" name="password" placeholder=" ">
-                        <label for="#inputPassword" class="custom-text-font-forum custom-text-color5">Senha
+                        <label for="#inputPass" class="custom-text-font-forum custom-text-color5">Senha
                             atual:</label>
                     </div>
 
                     <div class="label-float">
-                        <input type="password" class="input-background" id="inputPass1" name="password1"
+                        <input type="password" class="input-background new-password0" id="inputPass1" name="password1"
                             placeholder=" ">
-                        <label for="#inputPassword" class="custom-text-font-forum custom-text-color5">Nova
+                        <label for="#inputPass1" class="custom-text-font-forum custom-text-color5">Nova
                             senha:</label>
                     </div>
 
                     <div class="label-float">
-                        <input type="password" class="input-background" id="inputPass2" name="password2"
+                        <input type="password" class="input-background new-password1" id="inputPass2" name="password2"
                             placeholder=" ">
-                        <label for="#inputPassword" class="custom-text-font-forum custom-text-color5">Repita a nova
+                        <label for="#inputPass2" class="custom-text-font-forum custom-text-color5">Repita a nova
                             senha:</label>
                     </div>
                 </div>

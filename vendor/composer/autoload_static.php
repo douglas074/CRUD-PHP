@@ -12,6 +12,7 @@ class ComposerStaticInit529d2bb25729cd42ba9f40bc6b9b134d
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -26,6 +27,11 @@ class ComposerStaticInit529d2bb25729cd42ba9f40bc6b9b134d
             'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
         ),
+        'R' => 
+        array (
+            'Ramsey\\Uuid\\' => 12,
+            'Ramsey\\Collection\\' => 18,
+        ),
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
@@ -39,6 +45,10 @@ class ComposerStaticInit529d2bb25729cd42ba9f40bc6b9b134d
             'Laminas\\Mime\\' => 13,
             'Laminas\\Mail\\' => 13,
             'Laminas\\Loader\\' => 15,
+        ),
+        'B' => 
+        array (
+            'Brick\\Math\\' => 11,
         ),
     );
 
@@ -62,6 +72,14 @@ class ComposerStaticInit529d2bb25729cd42ba9f40bc6b9b134d
         'Symfony\\Polyfill\\Intl\\Idn\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+        ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
+        'Ramsey\\Collection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/collection/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
@@ -94,6 +112,10 @@ class ComposerStaticInit529d2bb25729cd42ba9f40bc6b9b134d
         'Laminas\\Loader\\' => 
         array (
             0 => __DIR__ . '/..' . '/laminas/laminas-loader/src',
+        ),
+        'Brick\\Math\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brick/math/src',
         ),
     );
 

@@ -11,6 +11,8 @@ return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Intl\\Normalizer\\' => array($vendorDir . '/symfony/polyfill-intl-normalizer'),
     'Symfony\\Polyfill\\Intl\\Idn\\' => array($vendorDir . '/symfony/polyfill-intl-idn'),
+    'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
+    'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Laminas\\Validator\\' => array($vendorDir . '/laminas/laminas-validator/src'),
@@ -19,4 +21,5 @@ return array(
     'Laminas\\Mime\\' => array($vendorDir . '/laminas/laminas-mime/src'),
     'Laminas\\Mail\\' => array($vendorDir . '/laminas/laminas-mail/src'),
     'Laminas\\Loader\\' => array($vendorDir . '/laminas/laminas-loader/src'),
+    'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
 );

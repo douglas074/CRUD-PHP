@@ -7,11 +7,15 @@ require"../vendor/autoload.php";
 use FFI\Exception;
 use PDO;
 use PDOException;
+
 use Laminas\Mail\Message;
 use Laminas\Mail\Transport\Smtp as SmtpTransport;
 use Laminas\Mail\Transport\SmtpOptions;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Part as MimePart;
+
+use Ramsey\Uuid\Uuid;
+
 class Users
 {
     private string $Name;
@@ -32,12 +36,16 @@ class Users
         $bytes = random_bytes(32);
         $token = bin2hex($bytes);
 
+        $uuid = Uuid::uuid4();
+        $guid = $uuid->toString();
+
         $conn = \db\ConnectionCreator::createConnection();
 
-        $sqlInsert = "INSERT INTO users (name, email, password, dateHour, token, status) VALUES (:name, :email, :password, :date, :token, :status);";
+        $sqlInsert = "INSERT INTO users (id, name, email, password, dateHour, token, status) VALUES (:id, :name, :email, :password, :date, :token, :status);";
         
         $statement = $conn->prepare($sqlInsert);
 
+        $statement->bindValue(':id', $guid);
         $statement->bindValue(':name', $this->Name);
         $statement->bindValue(':email', $this->Email);
         $statement->bindValue(':password', $this->Password);
@@ -72,7 +80,7 @@ class Users
 
             if ( $dbEmail == $email && password_verify($password, $dbPassword)) {
                 $conn = null;
-                $_SESSION['id'] = $row['id'];                
+                $_SESSION['guid'] = $row['id'];                
                 $_SESSION['name'] = $row['name'];
                 $_SESSION['email'] = $row['email'];
                 $_SESSION['password'] = $row['password'];
@@ -85,23 +93,30 @@ class Users
         return 0;
     }
     
-    public static function GetValues(string $guid, string $pass): string
-    {
-        $conn = \db\ConnectionCreator::createConnection();
-        $stmt = $conn->query("SELECT id, name, email, password FROM users WHERE guid = $guid");
-        $stmt->execute();
+  public static function AlterValues(string $guid, string $name, string $email, string $password): bool
+  {
+    $conn = \db\ConnectionCreator::createConnection();
+    $sqlInsert = "UPDATE users SET name = :name, email = :email, password = :pass WHERE id = :id";
+    $statement = $conn->prepare($sqlInsert);
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $dbId = $row['id'];
-        $dbPassword = $row['password'];
+    $statement->bindValue(':id', $guid);
+    $statement->bindValue(':name', $name);
+    $statement->bindValue(':email', $email);
+    $statement->bindValue(':pass', $password);
 
+    try {
+        $statement->execute();
+        $_SESSION['name'] = $name;
+        $_SESSION['email'] = $email;
+        $_SESSION['password'] = $password;
+
+        return 1;
+    } catch (PDOException $e) {
+        echo 'Erro ao atualizar dados' . $e;
         $conn = null;
-
-        if ( $dbId == $guid && password_verify($pass, $dbPassword)) {
-            return json_encode($row);
-        }
-        return "false";
+        return 0;
     }
+  }
     public function EmailSend(string $url):void
     {
         try {

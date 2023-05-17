@@ -40,13 +40,13 @@
             <form class="forms-general" id="accountForm" method="POST">
                 <span class="title-form custom-text-font-forum custom-text-color1">Acessar conta</span>
                 <div class="label-float">
-                    <input type="email" id="inputtEmail" name="email" placeholder=" ">
+                    <input type="email" id="inputEmail" name="email" placeholder=" ">
                     <label for="#inputEmail" class="custom-text-font-forum custom-text-color5">E-mail:</label>
                 </div>
 
                 <div class="label-float">
                     <input type="password" id="inputPass" name="password" placeholder=" ">
-                    <label for="#inputPassword" class="custom-text-font-forum custom-text-color5">Senha:</label>
+                    <label for="#inputPass" class="custom-text-font-forum custom-text-color5">Senha:</label>
                 </div>
                 <div>
                     <a href="#" type="button"
