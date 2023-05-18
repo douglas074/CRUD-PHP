@@ -29,7 +29,7 @@ class Users
         $this->Email =  (filter_var($Email, FILTER_VALIDATE_EMAIL)) ? $Email : exit();
         
     }
-    public function SaveData()
+    public function SaveData(): bool
     {
         $dateHour = date('Y/m/d H:i:s');
 
@@ -41,31 +41,33 @@ class Users
 
         $conn = \db\ConnectionCreator::createConnection();
 
-        $sqlInsert = "INSERT INTO users (id, name, email, password, dateHour, token, status) VALUES (:id, :name, :email, :password, :date, :token, :status);";
+        $sqlInsert = "INSERT INTO users (name, email, password, dateHour, token, status, guid) VALUES (:name, :email, :password, :date, :token, :status, :guid);";
         
         $statement = $conn->prepare($sqlInsert);
 
-        $statement->bindValue(':id', $guid);
         $statement->bindValue(':name', $this->Name);
         $statement->bindValue(':email', $this->Email);
         $statement->bindValue(':password', $this->Password);
         $statement->bindValue(':date', $dateHour);
         $statement->bindValue(':token', $token);
         $statement->bindValue(':status', 0);
+        $statement->bindValue(':guid', $guid);
 
         try {
             $statement->execute();
+            $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
+    
+            $this->EmailSend($url);
 
-        echo 'Conta criada com sucesso!';
+            $conn = null;
+            return 1;
         } catch (PDOException $e) {
             echo 'Erro ao criar conta' . $e;
             $conn = null;
             return false;
         }
-        $conn = null;
-        $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php?token=' . $token;
+        
     
-        $this->EmailSend($url);
     }
     public static function AccessAccount(string $email, string $password): int
     {
@@ -80,12 +82,12 @@ class Users
 
             if ( $dbEmail == $email && password_verify($password, $dbPassword)) {
                 $conn = null;
-                $_SESSION['guid'] = $row['id'];                
+                $_SESSION['guid'] = $row['guid'];                
                 $_SESSION['name'] = $row['name'];
                 $_SESSION['email'] = $row['email'];
                 $_SESSION['password'] = $row['password'];
 
-                return $_SESSION['id'];
+                return 1;
             }
         }
         session_destroy();
@@ -95,20 +97,22 @@ class Users
     
   public static function AlterValues(string $guid, string $name, string $email, string $password): bool
   {
+    $aux = password_hash($password, PASSWORD_DEFAULT);
     $conn = \db\ConnectionCreator::createConnection();
-    $sqlInsert = "UPDATE users SET name = :name, email = :email, password = :pass WHERE id = :id";
+
+    $sqlInsert = "UPDATE users SET name = :name, email = :email, password = :pass WHERE guid = :guid";
     $statement = $conn->prepare($sqlInsert);
 
-    $statement->bindValue(':id', $guid);
+    $statement->bindValue(':guid', $guid);
     $statement->bindValue(':name', $name);
     $statement->bindValue(':email', $email);
-    $statement->bindValue(':pass', $password);
+    $statement->bindValue(':pass', $aux);
 
     try {
         $statement->execute();
         $_SESSION['name'] = $name;
         $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
+        $_SESSION['password'] = $aux;
 
         return 1;
     } catch (PDOException $e) {

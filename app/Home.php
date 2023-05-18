@@ -32,9 +32,9 @@ session_start();
 
     <section class="container-fluid">
 
-        <article class="item article-forms-general">
+        <article class="item">
             <form class="forms-general" id="accountForm" method="POST">
-                <input type="hidden" name="hiddenInput" class="hidden-input" value="0" disabled>
+                <input type="hidden" name="hiddenInput" class="hidden-input" value="">
                 <span class="title-form custom-text-font-forum custom-text-color1">Alterar dados</span>
                 <div class="label-float">
                     <input type="text" class="input-background input-disabled0" id="inputName" name="name"
@@ -47,6 +47,7 @@ session_start();
                         placeholder=" " value="<?php echo $_SESSION['email'];?>" disabled>
                     <label for="#inputEmail" class="custom-text-font-forum custom-text-color5">E-mail:</label>
                 </div>
+
                 <div class="display-none password-area">
                     <div class="label-float">
                         <input type="password" class="input-background" id="inputPass" name="password" placeholder=" ">
@@ -68,18 +69,32 @@ session_start();
                             senha:</label>
                     </div>
                 </div>
-                <div>
-                    <a href="#" type="button"
-                        class="show-hide-password display-none custom-button custom-text-font-manrope custom-text-color1 password-button-font-size show-hide-password">Mostrar
-                        senha
-                    </a>
-                    <button type="button"
-                        class="form-button0 submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Editar
-                    </button>
-                    <button type="submit"
-                        class="form-button1 display-none submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Salvar
-                    </button>
-                </div>
+                <footer>
+                    <div class="div-general">
+                        <aside class="options">
+                            <a href="#" type="button"
+                                class="form-button0 submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Editar
+                            </a>
+                            <a href="#" type="button"
+                                class="form-button1 display-none submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Cancelar
+                                alteração
+                            </a>
+                            <button type="submit"
+                                class="form-button2 display-none submit-button custom-text-font-manrope custom-text-color1 password-button-font-size">Salvar
+                            </button>
+                        </aside>
+                        <aside class="pass-settings">
+                            <a href="#" type="button"
+                                class="show-hide-alter-pass display-none custom-button custom-text-font-manrope custom-text-color1 password-button-font-size ">Editar
+                                senha
+                            </a>
+                            <a href="#" type="button"
+                                class="show-hide-password display-none custom-button custom-text-font-manrope custom-text-color1 password-button-font-size ">Mostrar
+                                senha
+                            </a>
+                        </aside>
+                    </div>
+                </footer>
                 <p id="response" class="custom-text-font-manrope custom-text-color1 password-button-font-size"></p>
 
             </form>

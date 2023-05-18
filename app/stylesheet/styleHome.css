@@ -34,6 +34,20 @@ body {
     justify-content: flex-end;
 }
 
+.pass-settings {
+    display: none;
+    justify-items: end;
+}
+
+.options {
+    display: grid;
+    margin-right: 10px;
+}
+
+.form-button0 {
+    display: flex;
+}
+
 .input-background {
     background-color: var(--color1);
 }
@@ -74,13 +88,12 @@ body {
 
 .container-fluid {
     display: flex;
+    justify-content: center;
 }
 
 .item {
-    position: relative;
-    flex-grow: 1;
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 a {
@@ -96,6 +109,9 @@ a {
     display: flex;
 }
 
+.div-general {
+    display: flex;
+}
 
 .forms-general {
     margin-top: 10vh;
