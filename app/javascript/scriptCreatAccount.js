@@ -25,9 +25,20 @@ $(document).ready(function () {
                 $('#response').html('Enviando...');
             },
             success: function (response) {
-                $('#accountForm')[0].reset();
-                $('#response').html('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
-                console.log(response);
+                switch (response) {
+                    case '0':
+                        console.log('Erro ');
+                        break;
+                    case '1':
+                        $('#response').html('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
+                        console.log(response);
+                        break;
+                    default:
+                        $('#response').html('defaut');
+                        console.log(response);
+                        break;
+                }
+
             },
             error: function (xhr, status, error) {
                 console.log(xhr.responseText);

@@ -115,6 +115,7 @@ $(document).ready(function () {
                 password2: pass2Value
             },
             beforeSend: function () {
+                console.log(data);
                 $('#response').html('Enviando...');
             },
             success: function (response) {
@@ -131,7 +132,7 @@ $(document).ready(function () {
                         form_button2.style.display = 'none';
                         input_disabled0.disabled = true;
                         input_disabled1.disabled = true;
-                        passwordInput.type = null;
+                        passwordInput.value = null;
                         passwordInput1.value = null;
                         passwordInput2.value = null;
                         hidden_Input.value = 0;
