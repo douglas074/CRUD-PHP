@@ -105,6 +105,38 @@ a {
     float: right;
 }
 
+.delete-button {
+    float: right;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip::after {
+    content: "Excluir Conta";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px;
+    background-color: #000;
+    color: #fff;
+    font-size: 12px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+    /* Evita a quebra de linha */
+    display: inline-block;
+    /* Exibe os elementos em linha */
+}
+
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+
 .display-svg {
     display: flex;
 }

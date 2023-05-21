@@ -27,20 +27,32 @@ $(document).ready(function () {
             success: function (response) {
                 switch (response) {
                     case '0':
-                        console.log('Erro ');
+                        console.log('Erro ao criar conta, por favor tente novamente');
                         break;
                     case '1':
                         $('#response').html('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
                         console.log(response);
                         break;
+                    case '2':
+                        $('#response').html('Já há uma conta associada a esse email, mas ela nao está ativada, deseja reenviar o email de confirmação?');
+                        console.log(response);
+                        break;
+                    case '3':
+                        $('#response').html('Ocorreu um erro inesperado, por favor tente novamente');
+                        console.log(response);
+                        break;
+                    case '4':
+                        $('#response').html('Ocorreu um erro ao tentar enviar o email, tentaremos de novo');
+                        console.log(response);
+                        break;
                     default:
-                        $('#response').html('defaut');
+                        $('#response').html(response);
                         console.log(response);
                         break;
                 }
 
             },
-            error: function (xhr, status, error) {
+            error: function (xhr) {
                 console.log(xhr.responseText);
             }
         });

@@ -77,6 +77,9 @@ class Users
                 }
                 $conn = null;
                 break;
+                case 2:
+                    echo 2;
+                    break;
             
             default:
                 echo 3;
@@ -104,7 +107,7 @@ class Users
             return 0;
         }
     }
-    public static function AccessAccount(string $email, string $password): string
+    public static function AccessAccount(string $email, string $password): void
     {  
         $conn = \db\ConnectionCreator::createConnection();
 
@@ -119,15 +122,17 @@ class Users
                 $_SESSION['email'] = $row['email'];
                 $_SESSION['password'] = $row['password'];
 
-                return '1';
+                echo 1;
+                return;
             }
         }
         session_destroy();
         $conn = null;
-        return 'aaaaaaa';
+        echo 0;
+        return;
     }
 
-    public static function AlterValues(string $guid, string $name, string $email, string $password, string $password1): string
+    public static function AlterValues(string $guid, string $name, string $email, string $password, string $password1): void
     { 
         $conn = \db\ConnectionCreator::createConnection();
 
@@ -151,16 +156,16 @@ class Users
                     $_SESSION['name'] = $name;
                     $_SESSION['email'] = $email;
                     $_SESSION['password'] = $aux;
-    
-                    return 1;
+                    echo 0;
+                    return;
                 } catch (PDOException $e) {
-                    echo 'Erro ao atualizar dados' . $e;
+                    echo 1;
                     $conn = null;
-                    return 'ddddddd';
+                    return;
                 }
             }
         }
-        return 'errop mona';
+        echo 2;
     }   
     public function EmailSend(string $url): bool
     {
@@ -200,26 +205,4 @@ class Users
         }
     }
 
-    public function EmailVerificator(string $email):void
-    {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) 
-        {
-            $this->Email = $email;
-            return;
-        }
-        echo "E-mail inválido, por favor tente novamente";
-        return;
-    }
-
-    public function PasswordVerificator(string $pass): void
-    {
-        if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?])[\w!@#$%^&*()_+\-=[\]{};:\'"\\|,.<>\/?]{6,}$/', $pass) == 1) {
-            $this->Password = password_hash($pass, PASSWORD_DEFAULT);
-            return;
-        } else {
-            echo "Senha inválida, por favor tente novamente";
-            return;
-        }
-    }
 }
-

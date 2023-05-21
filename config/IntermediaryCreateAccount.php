@@ -7,7 +7,7 @@ if(preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=[\]{};:\'
     $Aux = new Users($_POST['name'], $_POST['email'], $_POST['password']);
     $Aux->SaveData();
 }else{
-    echo "Erro ao criar conta";
+    echo "Dados inválidos, verifique se seu nome possui apenas letras e espaços, seu email esteja na estrutura correta de email e que sua senha tenha no minimo uma letra maiusula, um numero e um caratere especial";
 }
 
 

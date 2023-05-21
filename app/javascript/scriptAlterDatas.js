@@ -10,6 +10,7 @@ let hidden_Input = document.querySelector('.hidden-input');
 let form_button0 = document.querySelector('.form-button0');
 let form_button1 = document.querySelector('.form-button1');
 let form_button2 = document.querySelector('.form-button2');
+let delete_button = document.querySelector('.delete-button');
 
 let input_disabled0 = document.querySelector('.input-disabled0');
 let input_disabled1 = document.querySelector('.input-disabled1');
@@ -45,9 +46,9 @@ form_button0.addEventListener('click', function () {
     form_button0.style.display = 'none';
     form_button1.style.display = 'flex';
     form_button2.style.display = 'flex';
+    delete_button.style.display = 'flex';
     input_disabled0.disabled = false;
     input_disabled1.disabled = false;
-    hidden_Input.value = 1;
     showPassword.style.display = 'none';
     hide_pass.style.display = 'flex';
     pass_settings.style.display = 'grid';
@@ -58,6 +59,7 @@ form_button1.addEventListener('click', function () {
     form_button0.style.display = 'flex';
     form_button1.style.display = 'none';
     form_button2.style.display = 'none';
+    delete_button.style.display = 'none';
     input_disabled0.disabled = true;
     input_disabled1.disabled = true;
     hidden_Input.value = 0;
@@ -74,22 +76,22 @@ form_button1.addEventListener('click', function () {
 
 })
 
-form_button2.addEventListener('click', function () {
-    form_button0.style.display = 'flex';
-    form_button1.style.display = 'none';
-    form_button2.style.display = 'none';
-    input_disabled0.disabled = true;
-    input_disabled1.disabled = true;
-    hidden_Input.value = 1;
-    hide_pass.style.display = 'none';
-    showPassword.style.display = 'none';
-    pass_settings.style.display = 'none';
-    password_area.style.display = 'none';
-})
+// form_button2.addEventListener('click', function () {
+//     form_button0.style.display = 'flex';
+//     form_button1.style.display = 'none';
+//     form_button2.style.display = 'none';
+//     input_disabled0.disabled = true;
+//     input_disabled1.disabled = true;
+//     hide_pass.style.display = 'none';
+//     showPassword.style.display = 'none';
+//     pass_settings.style.display = 'none';
+//     password_area.style.display = 'none';
+// })
 
 hide_pass.addEventListener('click', function () {
     password_area.style.display = 'block';
     hide_pass.style.display = 'none';
+    hidden_Input.value = 1;
     showPassword.style.marginTop = '27px';
     showPassword.style.display = 'flex';
 })
@@ -98,6 +100,7 @@ $(document).ready(function () {
     $('#accountForm').submit(function (e) {
         e.preventDefault();
 
+        const hidden = $('#hiddenInput').val();
         const emailValue = $('#inputEmail').val();
         const nameValue = $('#inputName').val();
         const passValue = $('#inputPass').val();
@@ -108,6 +111,7 @@ $(document).ready(function () {
             type: 'POST',
             url: '/Estudo/Cruds/CrudPhp/config/IntermediaryAlterDatas.php',
             data: {
+                hiddenInput: hidden,
                 email: emailValue,
                 name: nameValue,
                 password: passValue,
@@ -115,16 +119,11 @@ $(document).ready(function () {
                 password2: pass2Value
             },
             beforeSend: function () {
-                console.log(data);
                 $('#response').html('Enviando...');
             },
             success: function (response) {
                 switch (response) {
                     case '0':
-                        alert('Houve um erro ao salvar seus dados, por favor, tente novamente');
-                        console.log('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
-                        break;
-                    case '1':
                         alert('Dados Salvos');
                         showPassword.style.display = 'none';
                         password_area.style.display = 'none';
@@ -137,10 +136,18 @@ $(document).ready(function () {
                         passwordInput2.value = null;
                         hidden_Input.value = 0;
                         $('#response').html('');
+                        break;
+                    case '1':
+                        alert('Houve um erro ao salvar seus dados, por favor, tente novamente');
+                        console.log('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
+                        break;
+                    case '2':
+                        alert('Ocorreu um erro inesperado por favor, tente novamente//' + response);
+                        $('#response').html('');
 
                         break;
                     default:
-                        alert('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
+                        alert(response);
                         console.log(response);
                         break;
                 }
