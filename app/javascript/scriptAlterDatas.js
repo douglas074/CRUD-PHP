@@ -19,11 +19,30 @@ let hide_pass = document.querySelector('.show-hide-alter-pass');
 let password_area = document.querySelector('.password-area');
 let pass_settings = document.querySelector('.pass-settings');
 
+let response = document.querySelector('#response');
+
 let user_Name = document.querySelector('#inputName');
 let user_Email = document.querySelector('#inputEmail');
 
 let input_Value1 = user_Name.value;
 let input_Value2 = user_Email.value;
+
+let modal = document.getElementById('myModal');
+let modalContent = document.querySelector('.modal-content');
+
+let delete_Account = document.querySelector('.form-delete-confirm ');
+
+// Abra o modal quando o evento de clique ocorrer
+document.querySelector('.delete-button').addEventListener('click', function () {
+    modal.style.display = 'block';
+});
+
+// Feche o modal quando o usuário clicar fora do conteúdo
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
 
 showPassword.addEventListener('click', function () {
     if (passwordInput.type == 'password') {
@@ -119,7 +138,8 @@ $(document).ready(function () {
                 password2: pass2Value
             },
             beforeSend: function () {
-                $('#response').html('Enviando...');
+                response.style.display = 'flex';
+                response.textContent = 'Enviando...';
             },
             success: function (response) {
                 switch (response) {
@@ -135,16 +155,13 @@ $(document).ready(function () {
                         passwordInput1.value = null;
                         passwordInput2.value = null;
                         hidden_Input.value = 0;
-                        $('#response').html('');
                         break;
                     case '1':
                         alert('Houve um erro ao salvar seus dados, por favor, tente novamente');
                         console.log('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
                         break;
                     case '2':
-                        alert('Ocorreu um erro inesperado por favor, tente novamente//' + response);
-                        $('#response').html('');
-
+                        alert('Ocorreu um erro inesperado por favor, tente novamente.' + response);
                         break;
                     default:
                         alert(response);
@@ -157,5 +174,41 @@ $(document).ready(function () {
             }
         });
     });
-
 });
+
+delete_Account.addEventListener('click', function () {
+    $('#accountForm').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '/Estudo/Cruds/CrudPhp/config/IntermediarysDeleteAccount.php',
+            data: {
+                deleteInput: 1
+            },
+            beforeSend: function () {
+                response.style.display = 'flex';
+                response.textContent = 'Enviando...';
+            },
+            success: function (response) {
+                switch (response) {
+                    case '0':
+                        alert('Conta excluída');
+                        window.location.href = "/Estudo/Cruds/CrudPhp/Index.php";
+                        break;
+                    case '1':
+                        alert('Houve um erro ao excluir sua conta, por favor, tente novamente');
+                        console.log('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
+                        break;
+                    default:
+                        alert('Houve um erro inesperado, por favor tente novamente mais tarde');
+                        console.log('Houve um erro inesperado, por favor tente novamente mais tarde');
+                        break;
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+})

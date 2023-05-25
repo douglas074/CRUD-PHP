@@ -27,26 +27,26 @@ $(document).ready(function () {
             success: function (response) {
                 switch (response) {
                     case '0':
-                        console.log('Erro ao criar conta, por favor tente novamente');
+                        alert('Erro ao criar conta, por favor tente novamente');
                         break;
                     case '1':
-                        $('#response').html('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
+                        alert('Conta criada, por favor verifique seu e-mail para ativar sua conta...');
                         console.log(response);
                         break;
                     case '2':
-                        $('#response').html('Já há uma conta associada a esse email, mas ela nao está ativada, deseja reenviar o email de confirmação?');
+                        alert('Já há uma conta associada a esse email, mas ela nao está ativada, deseja reenviar o email de confirmação?');
                         console.log(response);
                         break;
                     case '3':
-                        $('#response').html('Ocorreu um erro inesperado, por favor tente novamente');
+                        alert('Ocorreu um erro inesperado, por favor tente novamente');
                         console.log(response);
                         break;
                     case '4':
-                        $('#response').html('Ocorreu um erro ao tentar enviar o email, tentaremos de novo');
+                        alert('Ocorreu um erro ao tentar enviar o email, tentaremos de novo');
                         console.log(response);
                         break;
                     default:
-                        $('#response').html(response);
+                        alert('HOuve um herro inesperado, por favor tente novamente outra hora');
                         console.log(response);
                         break;
                 }

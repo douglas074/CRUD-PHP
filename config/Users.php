@@ -21,7 +21,6 @@ class Users
     private string $Name;
     private string $Email;
     private string $Password;
-
     public function __construct(string $Name, string $Email, string $Password)
     {
         $this->Name = $Name;
@@ -48,7 +47,7 @@ class Users
                 $uuid = Uuid::uuid4();
                 $guid = $uuid->toString();
 
-                $sqlInsert = "INSERT INTO users (name, email, password, dateHour, token, status, guid) VALUES (:name, :email, :password, :date, :token, :status, :guid);";
+                $sqlInsert = "INSERT INTO users (name, email, password, dateHour, token, status, guid, exclusionStatus) VALUES (:name, :email, :password, :date, :token, :status, :guid, :exclusionStatus);";
                 
                 $statement = $conn->prepare($sqlInsert);
         
@@ -59,7 +58,8 @@ class Users
                 $statement->bindValue(':token', $tokenHash);
                 $statement->bindValue(':status', 0);
                 $statement->bindValue(':guid', $guid);
-        
+                $statement->bindValue(':exclusionStatus', 0);
+
                 try {
                     $statement->execute();
                     $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php/' . $token;
@@ -111,27 +111,25 @@ class Users
     {  
         $conn = \db\ConnectionCreator::createConnection();
 
-        $stmt = $conn->query("SELECT * FROM users WHERE status = 1");
-        $stmt->execute();
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            if ( $row['email'] == $email && password_verify($password, $row['password'])) {
-                $conn = null;
-                $_SESSION['guid'] = $row['guid'];                
-                $_SESSION['name'] = $row['name'];
-                $_SESSION['email'] = $row['email'];
-                $_SESSION['password'] = $row['password'];
-
-                echo 1;
-                return;
-            }
+        $stmt = "SELECT * FROM users WHERE status = 1 AND email = :email";
+        $statement = $conn->prepare($stmt);
+        $statement->bindValue(':email', $email);
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        if ( $row['email'] == $email && password_verify($password, $row['password'])) {
+            $conn = null;
+            $_SESSION['guid'] = $row['guid'];
+            $_SESSION['name'] = $row['name'];
+            $_SESSION['email'] = $row['email'];
+            $_SESSION['password'] = $row['password'];
+            echo 1;
+            return;
         }
         session_destroy();
         $conn = null;
         echo 0;
         return;
     }
-
     public static function AlterValues(string $guid, string $name, string $email, string $password, string $password1): void
     { 
         $conn = \db\ConnectionCreator::createConnection();
@@ -145,12 +143,12 @@ class Users
 
                 $sqlInsert = "UPDATE users SET name = :name, email = :email, password = :pass WHERE guid = :guid";
                 $statement = $conn->prepare($sqlInsert);
-    
+
                 $statement->bindValue(':guid', $guid);
                 $statement->bindValue(':name', $name);
                 $statement->bindValue(':email', $email);
                 $statement->bindValue(':pass', $aux);
-    
+
                 try {
                     $statement->execute();
                     $_SESSION['name'] = $name;
@@ -167,6 +165,23 @@ class Users
         }
         echo 2;
     }   
+    public static function DeleteAccount(string $guid): void
+    {
+        $conn = \db\ConnectionCreator::createConnection();
+        $sql = "UPDATE users SET status = 0, exclusionStatus = 1 WHERE guid = :guid";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(':guid', $guid);
+        try {
+            $statement->execute();
+            echo 0;
+            $conn = null;
+            return;
+            } catch (PDOException $e) {
+                echo 1;
+                $conn = null;
+                return;
+            }
+    }
     public function EmailSend(string $url): bool
     {
         try {

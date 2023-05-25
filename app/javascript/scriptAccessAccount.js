@@ -27,13 +27,12 @@ $(document).ready(function () {
             success: function (response) {
                 switch (response) {
                     case '0':
-                        console.log(response)
+                        alert('Usuário não encontrado, por favor crie uma conta');
                         break;
                     case '1':
-                        console.log(response)
                         window.location.href = "/Estudo/Cruds/CrudPhp/app/Home.php";
                     default:
-                        console.log('Erro desconhecido');
+                        alert('Erro desconhecido');
                         break;
                 }
             },
