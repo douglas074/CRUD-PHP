@@ -14,8 +14,6 @@ use Laminas\Mail\Transport\SmtpOptions;
 use Laminas\Mime\Message as MimeMessage;
 use Laminas\Mime\Part as MimePart;
 
-use Ramsey\Uuid\Uuid;
-
 class Users
 {
     private string $Name;
@@ -149,7 +147,7 @@ class Users
     }
 
     public static function ResendEmailVerificator(string $email): bool
-{
+    {
     $conn = \db\ConnectionCreator::createConnection();
     $result = users::GenereteToken();
     $token = $result[0];
@@ -187,23 +185,6 @@ class Users
     $conn->rollBack();
     $conn = null;
     return false;
-}
-
-    public static function TokenChanger(string $token, string $id)
-    {
-        try {
-            $conn = \db\ConnectionCreator::createConnection();
-            $sqlInsert = "UPDATE users SET token = :token WHERE id = :id";
-            $statement = $conn->prepare($sqlInsert);
-            $statement->bindValue(':token', $token);
-            $statement->bindValue(':id', $id);
-            $statement->execute();
-            $conn = null;
-            return true;
-        } catch (\Throwable $th) {
-            $conn = null;
-            return false;
-        }
     }
     public static function AlterValues(string $id, string $name, string $email, string $password, string $password1): void
     { 
@@ -348,8 +329,8 @@ class Users
                 'port' => 587,
                 'connection_class' => 'login',
                 'connection_config' => [
-                    'username' => 'do157.nunes@gmail.com',
-                    'password' => 'erefbuqzqilcuhgs',
+                    'username' => /*email que vai enviar o email de verificação*/ '',
+                    'password' => /*senha do app gmail da sua conta*/ '',
                     'ssl' => 'tls',
                 ],
             ]);
@@ -364,7 +345,7 @@ class Users
             $body = new MimeMessage();
             $body->addPart($html);
             $message->addTo($email)
-                    ->addFrom('do157.nunes@gmail.com')
+                    ->addFrom('' /*email que vai enviar, remetente*/ )
                     ->setSubject($status)
                     ->setBody($body);
 

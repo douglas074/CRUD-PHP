@@ -1,6 +1,5 @@
 {
     "require": {
-        "laminas/laminas-mail": "^2.22",
-        "ramsey/uuid": "^4.7"
+        "laminas/laminas-mail": "^2.22"
     }
 }
