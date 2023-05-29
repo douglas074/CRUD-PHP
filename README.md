@@ -23,17 +23,15 @@
         <li>
             <b><p><code>db:</code> contém os arquivos de banco de dados, sendo eles:</p></b>
             <code>- ConnectionCreator.php:</code> que cria a conexão com o banco de dados.<br>
-            <code>- database.db:</code> que é o prórpio banco de dados feito em sqlite3.<br><br>
         </li>
         <li>
-            <b><p><code>vendor:</code> contém todos os arquivos que tratam do composer e as bibliotecas que são utilizadas no projeto, sendo elas: </p></b>
-            <code>Laminas</code> que é utilizado para enviar e-mails e 
-            <code>ramsey</code> que é utilizada para gerar um valor de crid aleatório, tendo em vista que o sqlite não possui essa funcionalidade.
+            <b><p><code>vendor:</code> contém todos os arquivos que tratam do composer e a biblioteca que é utilizada no projeto, sendo ela: </p></b>
+            <code>Laminas</code> que é utilizado para enviar e-mails. Não se esqueça de colocar os seus dados no campos que estao comentados na função EmailSend dentro do arquivo Users.php
         </li>
     </ul>
     <h2>Requisitos</h2>
-    <h4>Instalar Sqlite3</h4>
-    <code>sudo apt-get install php-sqlite3</code>
+    <h4>PostgreSQL:</h4>
+    Para conseguir utilizar o banco de dados modifique os campos no arquivo ConnectionCreator.php
 <h2>Contribuição</h2>
 <p>Sinta-se à vontade para contribuir com melhorias, correções de bugs ou novos recursos para este projeto. Basta fazer um fork do repositório, fazer as modificações desejadas e enviar um pull request.</p>    
 </body>
