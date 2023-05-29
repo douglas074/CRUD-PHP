@@ -1,9 +1,8 @@
 <?php 
 namespace config;
-
+session_start();
 use PDO;
 use PDOException;
-
 /**
  * Summary of TokenVerificator
  */
@@ -16,23 +15,22 @@ class TokenVerificator{
     public static function TokenVerificator($Token): int
     {
         $conn = \db\ConnectionCreator::createConnection();
-        $stmt = $conn->prepare("SELECT token, guid FROM users");
+        $stmt = $conn->prepare("SELECT token, id FROM users");
         $stmt->execute();
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             if (password_verify($Token, $row['token'])) {
-                $sql = "UPDATE users SET status = :newValue WHERE guid = :guid";
-    
+                $sql = "UPDATE users SET status = :newValue WHERE id = :id";
+                $bool = true;
+                $stmtUpdate = $conn->prepare($sql);
+                $stmtUpdate->bindParam(':newValue', $bool);
+                $stmtUpdate->bindParam(':id', $row['id']);
                 try {
-                    $newValue = 1;
-
-                    $stmtUpdate = $conn->prepare($sql);
-                    $stmtUpdate->bindParam(':newValue', $newValue);
-                    $stmtUpdate->bindParam(':guid', $row['guid']);
                     $stmtUpdate->execute();
                     $conn = null;
                     return 0;
                 } catch (PDOException $e) {
+                    $conn = null;
                     echo "Erro ao ativar conta: " . $e->getMessage();
                     return 1;
                 }

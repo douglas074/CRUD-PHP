@@ -14,9 +14,9 @@
 :root {
     --color1: #E7F0F2;
     --color2: #A9D9D0;
-    --color3: #038c7f;
-    --color4: #027373;
-    --color5: #0D0D0D;
+    --color3: #02695f;
+    --color4: #01a7a7;
+    --color5: #101111;
 }
 
 body {
@@ -24,36 +24,25 @@ body {
     background-color: var(--color5);
 }
 
-.header {
-    background-color: var(--color3);
-    border-bottom-left-radius: 13px;
-    border-bottom-right-radius: 13px;
-    height: 45px;
+header {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    display: flex;
-    justify-content: flex-end;
+    background-color: var(--color3);
 }
 
-.pass-settings {
-    display: none;
-    justify-items: end;
-}
-
-.options {
-    display: grid;
-    margin-right: 10px;
-}
-
-.form-button0 {
+.sideTitle {
     display: flex;
 }
 
-.input-background {
-    background-color: var(--color1);
+.side-opitions {
+    display: flex;
 }
 
-.display-none {
-    display: none;
+.custom-button {
+    border: none;
+    background-color: transparent;
+    float: right;
 }
 
 .submit-button {
@@ -62,8 +51,22 @@ body {
     float: left;
 }
 
-.custom-text-font-manrope {
-    font-family: 'Manrope', sans-serif;
+.margin-left-header {
+    margin-left: 3rem;
+}
+
+.margin-rigth-header {
+    margin-right: 1rem;
+}
+
+input {
+    background-color: white;
+    max-width: 85%;
+    width: 100%;
+}
+
+input:disabled {
+    background-color: white;
 }
 
 .custom-text-color5 {
@@ -82,88 +85,8 @@ body {
     color: var(--color1);
 }
 
-.password-button-font-size {
-    font-size: 20px;
-}
-
-.container-fluid {
-    display: flex;
-    justify-content: center;
-}
-
-.item {
-    display: flex;
-    justify-content: center;
-}
-
-a {
-    text-decoration: none;
-    color: var(--color4);
-}
-
-.show-hide-password {
-    float: right;
-}
-
-.delete-button {
-    float: right;
-}
-
-.tooltip {
-    position: relative;
-}
-
-.tooltip::after {
-    content: "Excluir Conta";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 5px;
-    background-color: #000;
-    color: #fff;
-    font-size: 12px;
-    border-radius: 4px;
-    opacity: 0;
-    transition: opacity 0.2s;
-    white-space: nowrap;
-    display: inline-block;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-}
-
-.modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-}
-
-.tooltip:hover::after {
-    opacity: 1;
-}
-
-
-.display-svg {
-    display: flex;
-}
-
-.div-general {
-    display: flex;
-}
-
-.d-block {
-    display: block;
+.article-forms-general {
+    font-size: 18px;
 }
 
 .forms-general {
@@ -172,19 +95,6 @@ a {
     padding: 20px;
     background-color: var(--color3);
 }
-
-.footer-deleter {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.forms-delete {
-    border-radius: 10px;
-    padding: 20px;
-    background-color: var(--color3);
-    display: flow-root;
-}
-
 
 .custom-text-font-forum {
     font-family: 'Forum', cursive;

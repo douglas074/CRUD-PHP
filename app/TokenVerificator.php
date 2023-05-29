@@ -14,7 +14,7 @@
 <body>
     <header>
         <article class="siteTitle margin-left-header">
-            <h1 class="custom-text-font-forum custom-text-color1">Crud em php</h1>
+            <p class="title-form custom-text-font-forum custom-text-color1">Crud em php</p>
         </article>
     </header>
 

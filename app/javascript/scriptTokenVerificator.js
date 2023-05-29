@@ -16,7 +16,7 @@ window.onload = function () {
                     $('.spinner').css('display', 'none');
                     $('#status').text('Conta ativada, você será redirecionado para que faça o login');
                     setTimeout(function () {
-                        window.location.href = "/Estudo/Cruds/CrudPhp/Index.php";
+                        window.location.href = "/Estudo/Cruds/CrudPhp";
                     }, 5000);
                     break;
                 case '1':
@@ -35,7 +35,6 @@ window.onload = function () {
         },
         error: function (textStatus, errorThrown) {
             $('.spinner').css('display', 'none');
-            $('#status').text(response);
             console.log(textStatus, errorThrown);
         }
     });

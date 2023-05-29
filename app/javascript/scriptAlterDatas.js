@@ -66,9 +66,10 @@ form_button0.addEventListener('click', function () {
     form_button1.style.display = 'flex';
     form_button2.style.display = 'flex';
     delete_button.style.display = 'flex';
+    showPassword.style.display = 'flex';
     input_disabled0.disabled = false;
     input_disabled1.disabled = false;
-    showPassword.style.display = 'none';
+    passwordInput.disabled = false;
     hide_pass.style.display = 'flex';
     pass_settings.style.display = 'grid';
     showPassword.style.marginTop = '0px';
@@ -81,6 +82,7 @@ form_button1.addEventListener('click', function () {
     delete_button.style.display = 'none';
     input_disabled0.disabled = true;
     input_disabled1.disabled = true;
+    passwordInput.disabled = true;
     hidden_Input.value = 0;
     hide_pass.style.display = 'none';
     showPassword.style.display = 'none';
@@ -119,23 +121,25 @@ $(document).ready(function () {
     $('#accountForm').submit(function (e) {
         e.preventDefault();
 
-        const hidden = $('#hiddenInput').val();
-        const emailValue = $('#inputEmail').val();
-        const nameValue = $('#inputName').val();
-        const passValue = $('#inputPass').val();
-        const pass1Value = $('#inputPass1').val();
-        const pass2Value = $('#inputPass2').val();
+        let hiddenInput = $('#hiddenInput').val();
+        let inputName = $('#inputName').val();
+        let inputEmail = $('#inputEmail').val();
+        let inputPass = $('#inputPass').val();
+        let inputPass1 = $('#inputPass1').val();
+        let inputPass2 = $('#inputPass2').val();
 
+
+        $('#accountForm :input').prop('disabled', true);
         $.ajax({
             type: 'POST',
             url: '/Estudo/Cruds/CrudPhp/config/IntermediaryAlterDatas.php',
             data: {
-                hiddenInput: hidden,
-                email: emailValue,
-                name: nameValue,
-                password: passValue,
-                password1: pass1Value,
-                password2: pass2Value
+                hiddenInput: hiddenInput,
+                name: inputName,
+                email: inputEmail,
+                password: inputPass,
+                password1: inputPass1,
+                password2: inputPass2
             },
             beforeSend: function () {
                 response.style.display = 'flex';
@@ -144,6 +148,8 @@ $(document).ready(function () {
             success: function (response) {
                 switch (response) {
                     case '0':
+                        $('#accountForm :input').prop('disabled', false);
+                        $('#response').css('display', 'none');
                         alert('Dados Salvos');
                         showPassword.style.display = 'none';
                         password_area.style.display = 'none';
@@ -157,58 +163,99 @@ $(document).ready(function () {
                         hidden_Input.value = 0;
                         break;
                     case '1':
+                        $('#accountForm :input').prop('disabled', false);
+                        $('#response').css('display', 'none');
                         alert('Houve um erro ao salvar seus dados, por favor, tente novamente');
                         console.log('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
                         break;
                     case '2':
-                        alert('Ocorreu um erro inesperado por favor, tente novamente.' + response);
+                        $('#accountForm :input').prop('disabled', false);
+                        $('#response').css('display', 'none');
+                        alert('Ocorreu um erro inesperado por favor, tente novamente.');
                         break;
                     default:
+                        $('#accountForm :input').prop('disabled', false);
+                        $('#response').css('display', 'none');
                         alert(response);
                         console.log(response);
                         break;
                 }
             },
             error: function (xhr) {
+                $('#accountForm :input').prop('disabled', false);
+                $('#response').css('display', 'none');
                 console.log(xhr.responseText);
             }
         });
     });
 });
 
-delete_Account.addEventListener('click', function () {
-    $('#accountForm').submit(function (e) {
-        e.preventDefault();
+$('#deleteForm').submit(function (e) {
+    e.preventDefault();
 
-        $.ajax({
-            type: 'POST',
-            url: '/Estudo/Cruds/CrudPhp/config/IntermediarysDeleteAccount.php',
-            data: {
-                deleteInput: 1
-            },
-            beforeSend: function () {
-                response.style.display = 'flex';
-                response.textContent = 'Enviando...';
-            },
-            success: function (response) {
-                switch (response) {
-                    case '0':
-                        alert('Conta excluída');
-                        window.location.href = "/Estudo/Cruds/CrudPhp/Index.php";
-                        break;
-                    case '1':
-                        alert('Houve um erro ao excluir sua conta, por favor, tente novamente');
-                        console.log('Ocorreu um erro ao salvar seus dados, por favor tente novamente');
-                        break;
-                    default:
-                        alert('Houve um erro inesperado, por favor tente novamente mais tarde');
-                        console.log('Houve um erro inesperado, por favor tente novamente mais tarde');
-                        break;
-                }
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
+    $.ajax({
+        type: 'POST',
+        url: '/Estudo/Cruds/CrudPhp/config/IntermediarysDeleteAccount.php',
+        data: {
+            deleteInput: 1
+        },
+        beforeSend: function () {
+            $('#response').css('display', 'flex');
+            response.textContent = 'Deletando...';
+        },
+        success: function (response) {
+            switch (response) {
+                case '0':
+                    $('#response').css('display', 'none');
+                    alert('Conta excluída');
+                    window.location.href = "/Estudo/Cruds/CrudPhp";
+                    break;
+                case '1':
+                    $('#response').css('display', 'none');
+                    alert('Houve um erro ao excluir sua conta, por favor, tente novamente');
+                    console.log('Ocorreu um erro ao excluir sua conta, por favor tente novamente');
+                    break;
+                default:
+                    $('#response').css('display', 'none');
+                    alert('Houve um erro inesperado, por favor tente novamente mais tarde');
+                    console.log('Houve um erro inesperado, por favor tente novamente mais tarde');
+                    break;
             }
-        });
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+        }
     });
-})
+});
+$('#logOutForm').submit(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'POST',
+        url: '/Estudo/Cruds/CrudPhp/config/IntermediaryLogOut.php',
+        data: {
+            log: 1
+        },
+        success: function (response) {
+            switch (response) {
+                case '0':
+                    $('#response').css('display', 'none');
+                    window.location.href = "/Estudo/Cruds/CrudPhp";
+                    break;
+                case '1':
+                    $('#response').css('display', 'none');
+                    alert('Houve um erro ao sair da sua conta, por favor, tente novamente');
+                    console.log('Ocorreu um erro ao sair da sua conta, por favor tente novamente');
+                    break;
+                default:
+                    $('#response').css('display', 'none');
+                    alert('Houve um erro inesperado, por favor tente novamente mais tarde');
+                    console.log('Houve um erro inesperado, por favor tente novamente mais tarde');
+                    break;
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+        }
+    })
+});

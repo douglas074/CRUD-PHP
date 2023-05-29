@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!empty($_SESSION)) {
+    header("Location: /Estudo/Cruds/CrudPhp/app/AlterDatas.php");
+    exit();
+}else{
+?>
 <!DOCTYPE html>
 <html lang="PT-br">
 
@@ -6,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/Estudo/Cruds/CrudPhp/app/stylesheet/styleCreatAccount.css">
+    <link rel="stylesheet" href="/Estudo/Cruds/CrudPhp/app/stylesheet/styleGeneral.css">
 
     <title>Crud de PHP</title>
 </head>
@@ -14,20 +22,15 @@
 <body>
     <header>
         <article class="siteTitle margin-left-header">
-            <a href="/Estudo/Cruds/CrudPhp/src/Front/index.php"><h1 class="custom-text-font-forum custom-text-color1">Crud em php</h1></a>
+            <a href="/Estudo/Cruds/CrudPhp"><p class="title-form custom-text-font-forum custom-text-color1">Crud em php</p></a>
         </article>
 
         <article class="side-opitions">
             <a href="#" class="margin-rigth-header ">
-                <h1 class="custom-button custom-text-color1 custom-text-font-forum header-animation">Login</h1>
+                <p class="title-form custom-text-font-forum custom-text-color1">Sobre</p>
             </a>
-
-            <a href="#" class="margin-rigth-header ">
-                <h1 class="custom-button custom-text-color1 custom-text-font-forum">Sobre</h1>
-            </a>
-
             <a href="https://github.com/douglas074" class="margin-rigth-header ">
-                <h1 class="custom-button custom-text-color1 custom-text-font-forum">Meu repositório</h1>
+                <p class="title-form custom-text-font-forum custom-text-color1">Meu repositório</p>
             </a>
         </article>
     </header>
@@ -62,6 +65,7 @@
                 </div>
             </form>
             <a href="/Estudo/Cruds/CrudPhp/app/CreatAccount.php" class="alredy-have-acount">Ainda não possui uma conta?</a>
+            <a href="/Estudo/Cruds/CrudPhp/app/ResetPassword.php" class="alredy-have-acount">Esqueceu sua senha?</a>
         </article>
 
         <article class="item">
@@ -75,3 +79,6 @@
 </body>
 
 </html>
+<?php 
+}
+?>

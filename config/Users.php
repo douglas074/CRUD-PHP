@@ -40,14 +40,11 @@ class Users
 
                 $dateHour = date('Y/m/d H:i:s');
 
-                $bytes = random_bytes(32);
-                $token = bin2hex($bytes);
-                $tokenHash = password_hash($token, PASSWORD_DEFAULT);
-        
-                $uuid = Uuid::uuid4();
-                $guid = $uuid->toString();
+                $result = users::GenereteToken();
+                $token = $result[0];
+                $tokenHash = $result[1];
 
-                $sqlInsert = "INSERT INTO users (name, email, password, dateHour, token, status, guid, exclusionStatus) VALUES (:name, :email, :password, :date, :token, :status, :guid, :exclusionStatus);";
+                $sqlInsert = "INSERT INTO users (name, email, password, token, createdate) VALUES (:name, :email, :password, :token,  :date);";
                 
                 $statement = $conn->prepare($sqlInsert);
         
@@ -56,15 +53,12 @@ class Users
                 $statement->bindValue(':password', $this->Password);
                 $statement->bindValue(':date', $dateHour);
                 $statement->bindValue(':token', $tokenHash);
-                $statement->bindValue(':status', 0);
-                $statement->bindValue(':guid', $guid);
-                $statement->bindValue(':exclusionStatus', 0);
 
                 try {
                     $statement->execute();
                     $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php/' . $token;
         
-                    if($this->EmailSend($url)){
+                    if($this->EmailSend($url, $this->Name, $this->Email, 'Ativação de conta')){
                         $conn = null;
                         echo 1;
                         return;
@@ -86,19 +80,17 @@ class Users
                 break;
         }
     }
-
     public function accountVerificator(): int
     {
         $conn = \db\ConnectionCreator::createConnection();
 
-        $stmt = $conn->query("SELECT * FROM users WHERE email = :email AND exclusionStatus = 0 AND status = 0");
+        $stmt = "SELECT * FROM users WHERE email = :email AND exclusionstatus = false AND status = false";
         $statement = $conn->prepare($stmt);
-        
         $statement->bindValue(':email', $this->Email);
         try {
             $statement->execute();
             $row = $statement->fetch(PDO::FETCH_ASSOC);
-            if ($row) {
+            if (!$row) {
                 return 1;
             }
             return 2;
@@ -108,43 +100,128 @@ class Users
         }
     }
     public static function AccessAccount(string $email, string $password): void
-    {  
+    {
         $conn = \db\ConnectionCreator::createConnection();
-
-        $stmt = "SELECT * FROM users WHERE status = 1 AND email = :email";
+        $stmt = "SELECT * FROM users WHERE email = :email AND exclusionStatus = false";
         $statement = $conn->prepare($stmt);
         $statement->bindValue(':email', $email);
-        $statement->execute();
-        $row = $statement->fetch(PDO::FETCH_ASSOC);
-        if ( $row['email'] == $email && password_verify($password, $row['password'])) {
-            $conn = null;
-            $_SESSION['guid'] = $row['guid'];
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['email'] = $row['email'];
-            $_SESSION['password'] = $row['password'];
+        try {
+            $statement->execute();
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            if ($row){
+                if ($row['status']) {
+                    if (password_verify($password, $row['password'])) {
+                        $conn = null;
+                        $_SESSION['id'] = $row['id'];
+                        $_SESSION['name'] = $row['name'];
+                        $_SESSION['email'] = $row['email'];
+                        $_SESSION['password'] = $row['password'];
+                        echo 1;
+                        return;
+                    }else{
+                        $conn = null;
+                        echo 2;
+                        return;
+                    }
+                } else{
+                    echo (users::ResendEmailVerificator($email)) ? 3 : 4;
+                    return;
+                }
+            }else{
+                session_destroy();
+                $conn = null;
+                echo 0;
+                return;
+            }
+        } catch (\Throwable $th) {
             echo 1;
+            $conn = null;
             return;
         }
-        session_destroy();
-        $conn = null;
-        echo 0;
-        return;
     }
-    public static function AlterValues(string $guid, string $name, string $email, string $password, string $password1): void
+    public static function GenereteToken(): array
+    {
+        $bytes = random_bytes(32);
+        $token = bin2hex($bytes);
+        $tokenHash = password_hash($token, PASSWORD_DEFAULT);
+        $array = array($token, $tokenHash);
+        return $array;
+    }
+
+    public static function ResendEmailVerificator(string $email): bool
+{
+    $conn = \db\ConnectionCreator::createConnection();
+    $result = users::GenereteToken();
+    $token = $result[0];
+    $tokenHash = $result[1];
+
+    $stmt = "SELECT * FROM users WHERE status = false AND email = :email";
+    $statement = $conn->prepare($stmt);
+    $statement->bindValue(':email', $email);
+    try {
+        $statement->execute();
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            $id = $row['id'];
+
+            $sqlUpdate = "UPDATE users SET token = :tokenHash WHERE id = :id ";
+            $statement = $conn->prepare($sqlUpdate);
+            $statement->bindValue(':tokenHash', $tokenHash);
+            $statement->bindValue(':id', $id);
+            $statement->execute();  
+
+            try {
+                $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/TokenVerificator.php/' . $token;
+                return users::EmailSend($url, $row['name'], $email, 'Reenvio de ativação de conta');
+            } catch (PDOException $e) {
+                $conn->rollBack();
+                $conn = null;
+                return false;
+            }
+        }
+    } catch (\Throwable $th) {
+        $conn->rollBack();
+        $conn = null;
+        return false;
+    }
+    $conn->rollBack();
+    $conn = null;
+    return false;
+}
+
+    public static function TokenChanger(string $token, string $id)
+    {
+        try {
+            $conn = \db\ConnectionCreator::createConnection();
+            $sqlInsert = "UPDATE users SET token = :token WHERE id = :id";
+            $statement = $conn->prepare($sqlInsert);
+            $statement->bindValue(':token', $token);
+            $statement->bindValue(':id', $id);
+            $statement->execute();
+            $conn = null;
+            return true;
+        } catch (\Throwable $th) {
+            $conn = null;
+            return false;
+        }
+    }
+    public static function AlterValues(string $id, string $name, string $email, string $password, string $password1): void
     { 
         $conn = \db\ConnectionCreator::createConnection();
 
-        $stmt = $conn->query("SELECT * FROM users WHERE status = 1");
-        $stmt->execute();
+        $stmt = "SELECT * FROM users WHERE status = true AND id = :guid";
+        $statement = $conn->prepare($stmt);
+        $statement->bindValue(':guid', $id);
+        $statement->execute();
 
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
             if (password_verify($password, $row['password'])) {
                 $aux = password_hash($password1, PASSWORD_DEFAULT);
 
-                $sqlInsert = "UPDATE users SET name = :name, email = :email, password = :pass WHERE guid = :guid";
+                $sqlInsert = "UPDATE users SET name = :name, email = :email, password = :pass WHERE id = :id";
                 $statement = $conn->prepare($sqlInsert);
 
-                $statement->bindValue(':guid', $guid);
+                $statement->bindValue(':id', $id);
                 $statement->bindValue(':name', $name);
                 $statement->bindValue(':email', $email);
                 $statement->bindValue(':pass', $aux);
@@ -154,6 +231,7 @@ class Users
                     $_SESSION['name'] = $name;
                     $_SESSION['email'] = $email;
                     $_SESSION['password'] = $aux;
+                    $conn = null;
                     echo 0;
                     return;
                 } catch (PDOException $e) {
@@ -163,26 +241,104 @@ class Users
                 }
             }
         }
+        $conn = null;
         echo 2;
-    }   
-    public static function DeleteAccount(string $guid): void
+    }
+    public static function changePassword(string $id, string $email, string $pass)
     {
         $conn = \db\ConnectionCreator::createConnection();
-        $sql = "UPDATE users SET status = 0, exclusionStatus = 1 WHERE guid = :guid";
-        $statement = $conn->prepare($sql);
-        $statement->bindValue(':guid', $guid);
+        $stmt = "SELECT * FROM users WHERE status = true AND id = :id";
+        $statement = $conn->prepare($stmt);
+        $statement->bindValue(':id', $id);
         try {
             $statement->execute();
-            echo 0;
+            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            if (!password_verify($pass, $row['password'])) {
+                if ($email == $row['email'] && $row['id'] == $id) {
+                    $pass = password_hash($pass, PASSWORD_DEFAULT);
+                    $stmt = "UPDATE users 
+                    SET password = :pass 
+                    WHERE status = true AND email = :email AND id = :id";
+                    $statement = $conn->prepare($stmt);
+                    $statement->bindValue(':pass', $pass);
+                    $statement->bindValue(':email', $email);
+                    $statement->bindValue(':id', $id);
+                    try {
+                        $statement->execute();
+                        $conn = null;
+                        echo 0;
+                        return;
+                    } catch (\Throwable $th) {
+                        $conn = null;
+                        echo 1;
+                        return;
+                    }
+                }else {
+                    $conn = null;
+                    echo 2;
+                    return;
+                }
+            }else {
+                $conn = null;
+                echo 3;
+                return;
+            }
+        } catch (\Throwable $th) {
             $conn = null;
+            echo 4;
             return;
-            } catch (PDOException $e) {
-                echo 1;
+        }
+    }
+    public static function logOut(): void
+    {
+        echo (session_destroy()) ? 0 : 1 ;
+    }
+    public static function resetPassword(string $email)
+    {
+        $conn = \db\ConnectionCreator::createConnection();
+        $stmt = "SELECT name, id FROM users WHERE email = :email AND status = true";
+        $statement = $conn->prepare($stmt);
+        $statement->bindValue(':email', $email);
+        try {
+            $statement->execute();
+            $row = $statement->fetch(PDO::FETCH_ASSOC);;
+            if ($row){
+                $name = $row['name'];
+                $id = $row['id'];
+                $url = 'http://localhost/Estudo/Cruds/CrudPhp/app/ChangePassword.php/' . $id . '/';
+                echo users::EmailSend($url, $name, $email, 'Redifinição de senha');
                 $conn = null;
                 return;
             }
+            $conn = null;
+            return;
+        }catch (\Throwable $th) {
+            $conn = null;
+            echo 'Erro inesperado';
+            return;
+        }
     }
-    public function EmailSend(string $url): bool
+    public static function DeleteAccount(string $id): void
+    {
+        $dateHour = date('Y/m/d H:i:s');
+        $conn = \db\ConnectionCreator::createConnection();
+        $sql = "UPDATE users SET status = false, exclusionDate = :date, exclusionStatus = true WHERE id = :id";
+        $statement = $conn->prepare($sql);
+        $statement->bindValue(':date', $dateHour);
+        $statement->bindValue(':id', $id);
+        try {
+            $statement->execute();
+            session_destroy();
+            echo 0;
+            $conn = null;
+            return;
+        } catch (PDOException $e) {
+            echo 1;
+            $conn = null;
+            return;
+        }
+    }
+    public static function EmailSend(string $url, string $name, string $email, string $status): bool
     {
         try {
             $transport = new SmtpTransport();
@@ -202,14 +358,14 @@ class Users
             $message = new Message();
             $message->setEncoding('UTF-8');
 
-            $html = new MimePart('<h4>Olá ' . $this->Name . '<br> Por favor, acesse o link abaixo para confirmar seu e-mail </h4><br><h5>' . $url . '</h5>');
+            $html = new MimePart('<h4>Olá ' . $name . '<br> Por favor, acesse o link abaixo para confirmar seu e-mail </h4><br><h5>' . $url . '</h5>');
             $html->type = 'text/html';
         
             $body = new MimeMessage();
             $body->addPart($html);
-            $message->addTo($this->Email)
+            $message->addTo($email)
                     ->addFrom('do157.nunes@gmail.com')
-                    ->setSubject('Verificação de conta')
+                    ->setSubject($status)
                     ->setBody($body);
 
             $transport->send($message);
@@ -219,5 +375,4 @@ class Users
             return 0;
         }
     }
-
 }
