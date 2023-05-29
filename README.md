@@ -31,7 +31,8 @@
     </ul>
     <h2>Requisitos</h2>
     <h4>PostgreSQL:</h4>
-    Para conseguir utilizar o banco de dados modifique os campos no arquivo ConnectionCreator.php e tenha o <code>PostgreSQL</code> instalado e configurado então execute o seguinte comando<br>
+    Para conseguir utilizar o banco de dados modifique os campos no arquivo ConnectionCreator.php e tenha o <code>PostgreSQL</code> instalado e configurado então execute o seguinte comando<br><br>
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";<br><br>
     CREATE TABLE users (
     <br>id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     <br>nome VARCHAR(200),
