@@ -10,9 +10,9 @@ class ConnectionCreator
     public static function createConnection()
     {
         $host = 'localhost';
-        $dbname = 'admin';
-        $user = 'admin';
-        $password = 'cafe123';
+        $dbname = 'nome do banco';
+        $user = 'seu usuario';
+        $password = 'sua senha';
 
         try {
             $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
