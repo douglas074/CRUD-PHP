@@ -31,7 +31,19 @@
     </ul>
     <h2>Requisitos</h2>
     <h4>PostgreSQL:</h4>
-    Para conseguir utilizar o banco de dados modifique os campos no arquivo ConnectionCreator.php
+    Para conseguir utilizar o banco de dados modifique os campos no arquivo ConnectionCreator.php e tenha o <code>PostgreSQL</code> instalado e configurado então execute o seguinte comando<br>
+    CREATE TABLE users (
+    <br>id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    <br>nome VARCHAR(200),
+    <br>email VARCHAR(200),
+	<br>password VARCHAR(200),
+	<br>status BOOLEAN DEFAULT false,
+	<br>token varchar(300),
+	<br>createDate TIMESTAMP,
+	<br>exclusionDate TIMESTAMP, 
+	<br>exclusionStatus BOOLEAN DEFAULT false<br>
+);
+
 <h2>Contribuição</h2>
 <p>Sinta-se à vontade para contribuir com melhorias, correções de bugs ou novos recursos para este projeto. Basta fazer um fork do repositório, fazer as modificações desejadas e enviar um pull request.</p>    
 </body>
