@@ -26,11 +26,8 @@ if (!empty($_SESSION)) {
         </article>
 
         <article class="side-opitions">
-            <a href="#" class="margin-rigth-header ">
-                <p class="title-form custom-text-font-forum custom-text-color1">Sobre</p>
-            </a>
             <a href="https://github.com/douglas074" class="margin-rigth-header ">
-                <p class="title-form custom-text-font-forum custom-text-color1">Meu repositório</p>
+                <p class="title-form custom-text-font-forum custom-text-color1">GitHub</p>
             </a>
         </article>
     </header>
