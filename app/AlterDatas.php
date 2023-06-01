@@ -24,8 +24,8 @@ exit();
         </article>
 
         <article class="side-opitions">
-            <a href="#" class="margin-rigth-header">
-                <p class="title-form custom-text-font-forum custom-text-color1">Sobre</p>
+            <a href="https://github.com/douglas074" class="margin-rigth-header">
+                <p class="title-form custom-text-font-forum custom-text-color1">GitHub</p>
             </a>
             <form class="form-log-out" id="logOutForm" method="POST">
                 <button type="submit"
